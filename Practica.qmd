@@ -1,0 +1,11 @@
+---
+title: "Prueba 1"
+author: "Belen"
+format: html
+date: 13-3-2023
+editor: visual
+---
+
+## Quien soy
+
+Mi nombre es **Maria Belen Acuña,** pero solo uso mi segundo nombre. Tengo 22 años. Curso el ultimo año de la Licenciatura de Estudios de la Comunicacion.
