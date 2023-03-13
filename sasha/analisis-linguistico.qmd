@@ -1,0 +1,48 @@
+---
+title: "Un análisis"
+format: html
+editor: visual
+---
+
+## Datos
+
+Un texto cualquiera
+
+```{r}
+library(tidyverse)
+library(tidytext)
+
+my_data <- data.frame(text = c("Quien soy Soy Aleksander Dietrichson. Me llaman Sasha. Soy profesor y profesional de ciencia de datos e inteligencia artificial.
+Con que datos me gusta trabajar Me gustan sobre todo los datos lingüísticos. Modelos predictivos y generativos.")
+)
+
+my_data %>% 
+  unnest_tokens(word,text) %>% 
+  group_by(word) %>% 
+  count(sort = TRUE)
+```
+
+## Análisis de sentimientos
+
+```{r}
+## sentiments es un data.frame (o tibble)
+names(sentiments)
+
+my_data <- data.frame(
+text = c("Biden Offers Reassurance as Regulators Seek to Contain Damage Regulators closed another bank and opened an emergency lending program. President Biden said that customers’ deposits will be there when you need them.
+See more updatesFederal Reserve’s Path Is Murkier After Bank Blowup
+The Federal Reserve has been rapidly raising interest rates to fight inflation. But making big moves could be trickier amid instability.")
+)
+                      
+        
+
+
+```
+
+```{r}
+my_data %>% 
+  unnest_tokens(word, text) %>% 
+  left_join(sentiments) %>% 
+  group_by(sentiment) %>% 
+  count()
+```
