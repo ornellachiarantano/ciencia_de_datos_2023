@@ -12,3 +12,7 @@ https://dietrichson.github.io/metodos_cuantitativos_2/index.html
 3. Abrir una cuenta en posit.cloud (https://posit.cloud/)
 4. Associar la cuenta de github con la de posit
 5. Hacer «clone» de **su** repositorio en un projecto de Rstudio (dentro de posit.cloud).
+
+### Recommendaciones específicas de github
+- Crear un Personal Access Token (PAT) y guardarlo.
+- Ponerle una fecha de expiración que coincida con el fin del semestre
