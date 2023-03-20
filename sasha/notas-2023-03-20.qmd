@@ -149,3 +149,13 @@ plot(my_data)
 ```{r}
 plot(x = my_data$x[1:20], y= my_data$y[1:20], type='l')
 ```
+
+## Tarea
+
+1.  Generar un conjunto de datos aleatoreos (usar "sample")
+2.  Asignarlo a una variable (p.e. x)
+3.  Repetir el proceso (usar el mismo largo, y p.e. y)
+4.  Generar de los dos vectores un data.frame
+5.  Visualizarlo
+
+Pregunta: Hay algun patrón?
