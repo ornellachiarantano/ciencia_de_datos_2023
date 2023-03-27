@@ -1,0 +1,39 @@
+Tarea
+
+Generar un conjunto de datos aleatoreos (usar "sample")
+
+Asignarlo a una variable (p.e. x)
+
+Repetir el proceso (usar el mismo largo, y p.e. y)
+
+Generar de los dos vectores un data.frame
+
+Visualizarlo
+
+Pregunta: Hay algun patrón?
+
+# Generar dos vectores aleatorios de longitud 10
+
+```{r}
+x <- sample(1:100, 10)
+y <- sample(1:100, 10)
+
+```
+
+# Crear un data.frame a partir de los dos vectores
+
+```{r}
+df <- data.frame(x, y)
+```
+
+
+# Visualizar el data.frame
+
+```{r}
+df
+plot(df)
+View(df)
+```
+
+
+A mi parecer,  si los datos se generan de manera verdaderamente aleatoria, es poco probable que haya un patrón. Pero si la generación se realiza utilizando alguna distribución específica, es posible que haya un patrón más detectable.
