@@ -36,3 +36,5 @@ plot(my_data)
 
 \
 6. Pregunta: Hay algún patrón?
+
+no hay patrón
