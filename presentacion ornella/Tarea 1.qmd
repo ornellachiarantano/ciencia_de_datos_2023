@@ -1,0 +1,38 @@
+---
+title: "tarea 1"
+author: "Ornella chiarantano""
+format: html
+editor: visual
+---
+
+## Tarea
+
+1.  Generar un conjunto de datos aleatorios (usar "sample")
+
+2.  Asignarlo a una variable (p.e. x)
+
+    ```{r}
+    x <- sample ( x = 1:100, size = 20)
+    ```
+
+    3\. Repetir el proceso (usar el mismo largo, y p.e. y)
+
+    ```{r}
+    y <- sample (x = 1:100, size = 20)
+    ```
+
+    \
+    4.Generar de los dos vectores un data.frame
+
+    ```{r}
+    my_data  <- data.frame(x,y)
+    ```
+
+5. Visualizarlo
+
+```{r}
+plot(my_data)
+```
+
+\
+6. Pregunta: Hay algún patrón?
