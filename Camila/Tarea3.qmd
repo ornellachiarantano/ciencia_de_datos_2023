@@ -96,7 +96,6 @@ datosambito2 %>%
   head(40)
 ```
 
-
 ### Probando con más medios
 
 ```{r}
@@ -155,6 +154,7 @@ library(stopwords)
 my_stopwords2 <- stopwords(language = "es")
 head(my_stopwords2)
 ```
+
 ```{r}
 datosdiarios %>%
   unnest_tokens(palabra, texto)%>%
@@ -162,6 +162,7 @@ datosdiarios %>%
   count(sort = TRUE)%>%
   head(30)
 ```
+
 ```{r}
 datosdiarios %>% 
   unnest_tokens(palabra,texto) %>%
@@ -170,4 +171,3 @@ datosdiarios %>%
   count(sort = TRUE) %>% 
   head(60)
 ```
-
