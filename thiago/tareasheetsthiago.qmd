@@ -1,0 +1,63 @@
+```{r}
+library(tidyverse)
+# Script de conexion a google sheets
+if(!require(googlesheets4)){
+  install.packages("googlesheets4")
+  require(googlesheets4)
+}
+
+
+gs4_deauth()
+
+my_url <- "https://docs.google.com/spreadsheets/d/1XVRSnoMkJTTkp3tRBjJsJLWmtl8cs7ThLf0iwza7L00/edit?usp=sharing"
+
+my_data <- googlesheets4::read_sheet(my_url)
+```
+
+```{r}
+library(tidytext)
+my_data %>% 
+  unnest_tokens(palabra, texto)
+```
+
+```{r}
+my_data %>% 
+  unnest_tokens(palabra,texto) %>% 
+  group_by(palabra) %>% 
+  count(sort = TRUE) %>% 
+  head(50)
+```
+
+
+```{r}
+my_conteo <- my_data %>% 
+  unnest_tokens(palabra,texto) %>% 
+  group_by(palabra) %>% 
+  count(sort = TRUE)
+```
+
+```{r}
+hist(my_conteo$n)
+```
+Distribucion Zipfiana.
+
+```{r}
+my_data %>% 
+  unnest_tokens(palabra,texto) %>% 
+  group_by(medio) %>% 
+  summarize(
+    N = n()
+  )
+```
+
+```{r}
+my_data %>% 
+  unnest_tokens(palabra, texto) %>% 
+  mutate(largo_de_palabra = str_length(palabra)) %>% 
+  group_by(medio) %>% 
+  summarize(
+    N = n(),
+    promedio = mean(largo_de_palabra)
+  )
+```
+

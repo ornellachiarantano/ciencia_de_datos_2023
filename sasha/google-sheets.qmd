@@ -1,0 +1,126 @@
+---
+title: "Google Sheets"
+format: html
+editor: visual
+---
+
+## Conectar a google sheets
+
+```{r}
+library(tidyverse)
+# Script de conexion a google sheets
+if(!require(googlesheets4)){
+  install.packages("googlesheets4")
+  require(googlesheets4)
+}
+
+
+gs4_deauth()
+
+my_url <- "https://docs.google.com/spreadsheets/d/12dNxo5usQXQxMBC5EaBz-anOziS7pbT9YH3o0MmfJ5s/edit?usp=sharing"
+
+my_data <- googlesheets4::read_sheet(my_url)
+```
+
+```{r}
+names(my_data)
+```
+
+## Eligir columnas
+
+Version dplyr
+
+```{r}
+my_data_2 <- my_data %>% 
+  select(titulo, fecha)
+
+# equivalente
+my_data_3 <- select(my_data, titulo, fecha)
+```
+
+```{r}
+my_data_2
+```
+
+```{r}
+my_data_3 <- data.frame(title = my_data$titulo, date = my_data$fecha)
+```
+
+## Analisis
+
+En este analisis contamos el numero de palabras de cada articulo.
+
+```{r}
+library(tidytext)
+my_data %>% 
+  unnest_tokens(palabra, texto)
+```
+
+```{r}
+my_data %>% 
+  unnest_tokens(palabra, titulo)
+```
+
+Contar palabras
+
+```{r}
+my_data %>% 
+  unnest_tokens(palabra,texto) %>% 
+  group_by(palabra) %>% 
+  count(sort = TRUE) %>% 
+  head(50)
+  
+```
+
+```{r}
+my_conteo <- my_data %>% 
+  unnest_tokens(palabra,texto) %>% 
+  group_by(palabra) %>% 
+  count(sort = TRUE)
+```
+
+```{r}
+hist(my_conteo$n)
+```
+
+Distribucion Zipfiana.
+
+```{r}
+my_data %>% 
+  unnest_tokens(palabra,texto) %>% 
+  group_by(medio) %>% 
+  summarize(
+    N = n()
+  )
+```
+
+```{r}
+my_data %>% 
+  unnest_tokens(palabra, texto) %>% 
+  mutate(largo_de_palabra = str_length(palabra)) %>% 
+  group_by(medio) %>% 
+  summarize(
+    N = n(),
+    promedio = mean(largo_de_palabra)
+  )
+```
+
+## Tarea:
+
+1.  Armar un Google Sheet con textos periodisticos (10)
+2.  Acceder al mismo desde R
+3.  Realizar analisis como el de este documento. (Numero de palabras, y promedio de largo de palabras).
+
+### Medios:
+
+Nico - Clarin
+
+Thiago - La Nacion
+
+Camila - Ambito
+
+Ornella - Infobae
+
+Belen - Tiempo Argentino
+
+Muestreo: Los diez primeros (aliatoriamente).
