@@ -28,7 +28,7 @@ editor: visual
     my_data  <- data.frame(x,y)
     ```
 
-5. Visualizarlo
+3.  Visualizarlo
 
 ```{r}
 plot(my_data)
