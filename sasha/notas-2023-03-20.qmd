@@ -1,0 +1,161 @@
+---
+title: "Notas de 20 de marzo 2023"
+author: "Sasha"
+format: html
+editor: visual
+---
+
+## Muestra aleatorea
+
+```{r}
+#| echo: false
+1+1
+```
+
+### Ejemplo del libro
+
+```{r}
+
+sample(x = 1:200, size = 20)
+```
+
+Setear la semilla
+
+```{r}
+set.seed(123)
+sample(x = 1:200, size = 20)
+```
+
+### Funciones de R (incluidos)
+
+$$
+f(x) = x² \\
+f(x) = x * x
+$$
+
+```{r}
+x <- 3
+y = 3
+
+x*x
+y*y
+```
+
+```{r}
+sample(1:10, 2)
+sample(x = 1:10, size = 2)
+```
+
+### Funciones sin parametros
+
+```{r}
+Sys.time()
+```
+
+```{r}
+Sys.Date()
+```
+
+Funcion con un solo parametro
+
+```{r}
+print("Hola desde R")
+```
+
+```{r}
+print(x = "Hola desde R" )
+```
+
+### Variables
+
+```{r}
+jorge = 10
+jorge2 <- 20
+
+jorge + jorge2
+```
+
+```{r}
+nombres = c("Sasha","Jorge","Maria","Rita","Juan","Camila")
+
+```
+
+```{r}
+sample(x=1:10, size=2)
+```
+
+```{r}
+sample(x = nombres, size = 2)
+```
+
+Cuando tenes variables "largas" se llaman "vectores".
+
+```{r}
+print(nombres)
+
+print(nombres[2])
+```
+
+```{r}
+print(nombres[c(2,4)])
+```
+
+```{r}
+apellidos <- c("Dietrichson", "Lopez","Sanchez","Perez","Martinez","Hovig")
+```
+
+```{r}
+gente <- data.frame(nombres,apellidos)
+```
+
+```{r}
+print(gente)
+```
+
+```{r}
+nombres[3]
+```
+
+```{r}
+gente[3,1]
+gente[3,2]
+```
+
+```{r}
+gente$nombres[1]
+```
+
+```{r}
+gente$apellidos[2]
+```
+
+## Visualizar datos
+
+```{r}
+my_data <- data.frame(
+  x = 1:20,
+  y = cos(1:20)
+)
+```
+
+```{r}
+print(my_data)
+```
+
+```{r}
+plot(my_data)
+```
+
+```{r}
+plot(x = my_data$x[1:20], y= my_data$y[1:20], type='l')
+```
+
+## Tarea
+
+1.  Generar un conjunto de datos aleatoreos (usar "sample")
+2.  Asignarlo a una variable (p.e. x)
+3.  Repetir el proceso (usar el mismo largo, y p.e. y)
+4.  Generar de los dos vectores un data.frame
+5.  Visualizarlo
+
+Pregunta: Hay algun patrón?

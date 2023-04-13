@@ -1,0 +1,18 @@
+---
+title: "Notas de clase"
+author: "Aleksander Dietrichson"
+format: html
+editor: visual
+---
+
+## Hypotesis nula y alternativa
+
+Para Thiago:
+
+$H_0$: Se habla de crimen y de problema social por igual.
+
+$H_1$: Hablan mas de delincia que de responsibilidad social.
+
+$H_2$: Hablan mas resp social que de delincuencia.
+
+$H_0: \mu_1=\mu_2$
