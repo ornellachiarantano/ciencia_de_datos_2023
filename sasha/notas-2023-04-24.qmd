@@ -1,0 +1,67 @@
+---
+title: "Ejemplo de Chi-Cuadrado"
+author: "Aleksander Dietrichson"
+format: html
+editor: visual
+---
+
+## 
+
+## Ejemplo de chi-cuadraro
+
+Es la tarea 4.
+
+```{r}
+library(tidyverse)
+library(tidytext)
+gs4_deauth()
+
+# datos de Thiago
+my_url <- "https://docs.google.com/spreadsheets/d/1XVRSnoMkJTTkp3tRBjJsJLWmtl8cs7ThLf0iwza7L00/edit?usp=sharing"
+
+# Datos de Camila
+my_url2 <- "https://docs.google.com/spreadsheets/d/11bP7wUWycz7miJgL9p42-ct8hB4jePN6DcvrKJ3WnoM/edit#gid=0"
+
+
+datos_thiago <- googlesheets4::read_sheet(my_url)
+
+datos_camila <- googlesheets4::read_sheet(my_url2)
+
+
+tmp_df <- 
+  datos_camila %>% 
+  rename(titulo = Título,
+         fecha = Fecha,
+         medio = Medio,
+         texto = Texto
+         )
+
+## Check
+names(tmp_df) == names(datos_thiago)
+
+my_data <- 
+  bind_rows(
+    datos_thiago,
+    tmp_df
+  )
+```
+
+### Hipotesis
+
+Pensamos que Ambito va a contener más articulos que mencione la palabra dólar que La Nación.
+
+$H_0: f(dolar)_A = f(dolar)_N$
+
+$H_1: f(dolar)_A > f(dolar)_N$
+
+```{r}
+my_data %>% 
+  group_by(medio) %>% 
+  reframe(
+    Mencion = str_detect(texto,'dólar')
+  ) %>% 
+  table() %>% 
+  chisq.test()
+```
+
+En vista de los valores retornados por el test no rechazamos $H_0$ . No rechazamos la hipótesis nula.
