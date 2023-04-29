@@ -1,0 +1,80 @@
+---
+title: "Tarea 4"
+format: html
+editor: visual
+---
+
+## Tarea 4
+
+1\. Haciendo uso del medio al que fue asignado eligir una palabra clave buscar su frecuencia en el medio eligido.
+
+2\. Eligir otro medio de los disponibles, calcular su frecuencia.
+
+3\. Formular una hipótesis sobre la frecuencia comparativa.
+
+4\. Testear la hipótesis e interpretar los resultados.
+
+```{r}
+library(tidyverse)
+library(tidytext)
+gs4_deauth
+
+
+gs <- "https://docs.google.com/spreadsheets/d/11bP7wUWycz7miJgL9p42-ct8hB4jePN6DcvrKJ3WnoM/edit#gid=0"
+
+datosambito <- googlesheets4::read_sheet(gs, sheet = 1)
+
+datospagina <- googlesheets4::read_sheet(gs, sheet = 3)
+
+```
+
+```{r}
+datosambito2 <- 
+  datosambito %>% 
+  rename(titulo = Título,
+         fecha = Fecha,
+         medio = Medio,
+         texto = Texto
+         )
+
+## Check
+names(datosambito2) == names(datospagina)
+
+
+misdatos <- (
+  bind_rows(
+    datospagina,
+    datosambito2
+  )
+)
+```
+
+### Hipótesis
+
+Teniendo en cuenta que, durante lo visto en clase, podemos saber que en Ambito se repite más veces la palabra "dolar" que en el diario La Nación, creeemos que sucede lo mismo con el diario Página12. Aun así, también creemos que en el diario Página12 se repetirán palabras más asociadas a crímenes que en Ambito.
+
+$H_0: f(dolar)_A = f(dolar)_P$
+
+$H_1: f(dolar)_A = f(dolar)_P$
+
+$H_2: f(crimen)_A = f(crimen)_P$
+
+```{r}
+misdatos %>% 
+  group_by(medio) %>% 
+  reframe(
+    Mencion = str_detect(texto, 'dólar')
+  ) %>% 
+  table() %>% 
+  chisq.test()
+```
+
+```{r}
+misdatos %>% 
+  group_by(medio) %>% 
+  reframe(
+    Mencion = str_detect(texto, 'Crímen')
+  ) %>% 
+  table() %>% 
+  chisq.test()
+```
