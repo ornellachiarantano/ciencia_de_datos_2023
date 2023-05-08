@@ -69,7 +69,7 @@ misdatos %>%
   chisq.test()
 ```
 
-En base a los valores retornados, rechazamos la hipótesis nula y la hipótesis primera, según la información observada, parece ser que Página 12 tiene más contenidos sobre el dolar.
+En base a los valores retornados, no rechazamos la hipótesis nula.
 
 ```{r}
 misdatos %>% 
@@ -81,4 +81,4 @@ misdatos %>%
   chisq.test()
 ```
 
-Y según lo visto por los datos observados en la segunda función, entendemos que efectivamente, la hipótesis 2 es correcta.
+Y según lo visto por los datos observados en la segunda función, entendemos que tampoco podemos rechazar la hipótesis 3 respecto a la aparición de la palabra crímen en ambos medios.
