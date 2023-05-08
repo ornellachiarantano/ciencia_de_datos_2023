@@ -60,4 +60,37 @@ my_data %>%
     promedio = mean(largo_de_palabra)
   )
 ```
+```{r}
+library(stopwords)
+my_stopwords <- stopwords(language = "es")
+head(my_stopwords)
+```
 
+```{r}
+my_data %>% 
+  unnest_tokens(palabra,texto) %>%
+  anti_join( data.frame(palabra = my_stopwords) ) %>% 
+  group_by(palabra) %>% 
+  count(sort = TRUE) %>% 
+  head(50)
+```
+
+```{r}
+my_stopwords <- c(my_stopwords, c("luego","dos","momento","cruz","ambos","menos","nunca"))
+
+my_data %>% 
+  unnest_tokens(palabra,texto) %>%
+  anti_join( data.frame(palabra = my_stopwords) ) %>% 
+  group_by(palabra) %>% 
+  count(sort = TRUE) %>% 
+  head(50)
+```
+```{r}
+install.packages("ggplot2")
+library(ggplot2)
+```
+
+
+```{r}
+my_data<-ggplot(data=df, aes(x=dose, y=len)) +
+  geom_bar(stat="identity"
