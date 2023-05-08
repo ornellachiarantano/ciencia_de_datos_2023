@@ -37,7 +37,7 @@ html <- read_html(my_url)
 
 ```
 
-## Ejemplo: 
+## Ejemplo:
 
 ```{r}
 #| echo: true
@@ -74,30 +74,29 @@ length(my_nodes)
 
 ## Extraer el contenido
 
-:::{.rfit}
-
+::: rfit
 ```{r}
 #| echo: true
   
 html_text2(my_nodes)
 ```
-
 :::
 
 ## ¿De donde salieron?
 
-* "h1.com-title"
+-   "h1.com-title"
 
 y
 
-* ".cuerpo__nota p.com-paragraph"
+-   ".cuerpo\_\_nota p.com-paragraph"
 
 (también hay ".container-firma a.com-link")
+
 ## Otro «truco» es
 
-* https://www.lanacion.com.ar/sitemap-news.xml
+-   https://www.lanacion.com.ar/sitemap-news.xml
 
-Los sitemaps son usados por buscadores para indexar el contenido.           
+Los sitemaps son usados por buscadores para indexar el contenido.
 
 ## Leer sitemaps
 
@@ -114,7 +113,7 @@ html_text2(my_links) %>%
 
 ## Bucles
 
-:::{.rfit}
+::: rfit
 Vamos a extraer las primeras 50 noticias del sitemap con un bucle (loop)
 
 ```{r}
@@ -142,10 +141,9 @@ for(i in 1:50){
 }
 
 ```
-
 :::
 
 ## Refactoricemos el código para retilizarlo
 
-* Tiene que ser aplicable a otros medios
-* Tiene que ser flexible
+-   Tiene que ser aplicable a otros medios
+-   Tiene que ser flexible
