@@ -55,26 +55,30 @@ Teniendo en cuenta que, durante lo visto en clase, podemos saber que en Ambito s
 
 $H_0: f(dolar)_A = f(dolar)_P$
 
-$H_1: f(dolar)_A = f(dolar)_P$
+$H_1: f(dolar)_A > f(dolar)_P$
 
-$H_2: f(crimen)_A = f(crimen)_P$
-
-```{r}
-misdatos %>% 
-  group_by(medio) %>% 
-  reframe(
-    Mencion = str_detect(texto, 'dólar')
-  ) %>% 
-  table() %>% 
-  chisq.test()
-```
+$H_2: f(crimen)_A < f(crimen)_P$
 
 ```{r}
 misdatos %>% 
   group_by(medio) %>% 
   reframe(
-    Mencion = str_detect(texto, 'Crímen')
+    Mencion = str_detect(texto, 'dolar')
   ) %>% 
   table() %>% 
   chisq.test()
 ```
+
+En base a los valores retornados, rechazamos la hipótesis nula y la hipótesis primera, según la información observada, parece ser que Página 12 tiene más contenidos sobre el dolar.
+
+```{r}
+misdatos %>% 
+  group_by(medio) %>% 
+  reframe(
+    Mencion = str_detect(texto, 'crimen')
+  ) %>% 
+  table() %>% 
+  chisq.test()
+```
+
+Y según lo visto por los datos observados en la segunda función, entendemos que efectivamente, la hipótesis 2 es correcta.
