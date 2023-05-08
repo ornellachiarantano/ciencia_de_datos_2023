@@ -68,6 +68,7 @@ misdatos %>%
   table() %>% 
   chisq.test()
 ```
+En base a los valores retornados, rechazamos la hipótesis nula y la hipótesis primera, según la información observada, parece ser que Página 12 tiene más contenidos sobre el dolar.
 
 ```{r}
 misdatos %>% 
@@ -78,8 +79,6 @@ misdatos %>%
   table() %>% 
   chisq.test()
 ```
-
-En base a los valores retornados, rechazamos la hipótesis nula y la hipótesis primera, según la información observada, parece ser que Página 12 tiene más contenidos sobre el dolar.
  
 Show in New Window 
  
