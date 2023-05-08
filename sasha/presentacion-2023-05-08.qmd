@@ -1,0 +1,151 @@
+---
+title: "Web Scraping"
+author: "Aleksander Dietrichson"
+format: 
+  revealjs:
+    theme: dark
+    chalkboard: true
+editor: visual
+---
+
+## Objetivo
+
+-   Automatizar la recolección de datos de periódicos online
+
+-   Aplicable a cualquier contenido en internet
+
+## Paquetes
+
+```{r}
+#| echo: fenced
+library(tidyverse)
+if(!require(rvest)){
+  install.packages("rvest")
+}
+```
+
+-   rvest
+-   tidyverse
+
+## Ejemplo:
+
+```{r}
+#| echo: true
+library(rvest)
+my_url <- "https://www.lanacion.com.ar/politica/cristina-kirchner-contra-patricia-bullrich-dijo-que-esta-sospechada-de-una-maniobra-para-encubrir-su-nid08052023/"
+html <- read_html(my_url)
+
+```
+
+## Ejemplo: 
+
+```{r}
+#| echo: true
+library(tidyverse)
+html_text(html) %>% 
+  substr(1,1000)
+```
+
+## Extraer las partes con contenido
+
+Vimos que hay mucho código que no nos interesa. Por ende tenemos que limpiar el html y extraer las partes del contenido. Para ello usamos tags de html y css.
+
+```{r}
+#| echo: true
+
+# Extraer titulo
+html %>% 
+  html_element("h1.com-title") %>% 
+  html_text2()
+
+
+```
+
+## Extraer el contenido
+
+```{r}
+#| echo: true
+# Extraer cuerpo
+
+html %>% 
+  html_nodes(".cuerpo__nota p.com-paragraph") -> my_nodes
+length(my_nodes)
+```
+
+## Extraer el contenido
+
+:::{.rfit}
+
+```{r}
+#| echo: true
+  
+html_text2(my_nodes)
+```
+
+:::
+
+## ¿De donde salieron?
+
+* "h1.com-title"
+
+y
+
+* ".cuerpo__nota p.com-paragraph"
+
+(también hay ".container-firma a.com-link")
+## Otro «truco» es
+
+* https://www.lanacion.com.ar/sitemap-news.xml
+
+Los sitemaps son usados por buscadores para indexar el contenido.           
+
+## Leer sitemaps
+
+```{r}
+#| echo: true
+
+my_links <- 
+  read_html("https://www.lanacion.com.ar/sitemap-news.xml") %>% 
+  html_nodes("loc")
+length(my_links)
+html_text2(my_links) %>% 
+  head()
+```
+
+## Bucles
+
+:::{.rfit}
+Vamos a extraer las primeras 50 noticias del sitemap con un bucle (loop)
+
+```{r}
+#| echo: fenced
+#| eval: false
+
+my_data <- data.frame() # Para guardar los resultados
+
+for(i in 1:50){
+  my_link <- my_links[i] %>% 
+    html_text2()
+  
+  # Leer el html
+  html <- read_html(my_link)
+  
+  # Extraer titulo
+  html %>% 
+    html_element("h1.com-title") %>% 
+    html_text2() -> my_title
+  html %>% 
+    html_nodes(".cuerpo__nota p.com-paragraph") %>% 
+    html_text2() %>% 
+    paste(collapse=" ") -> my_content
+  my_data <- rbind(my_data, data.frame(title = my_title, content=my_content))
+}
+
+```
+
+:::
+
+## Refactoricemos el código para retilizarlo
+
+* Tiene que ser aplicable a otros medios
+* Tiene que ser flexible
