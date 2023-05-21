@@ -68,6 +68,7 @@ misdatos %>%
   table() %>% 
   chisq.test()
 ```
+En base a los valores retornados, no rechazamos la hipótesis nula.
 
 En base a los valores retornados, no rechazamos la hipótesis nula.
 
@@ -80,5 +81,19 @@ misdatos %>%
   table() %>% 
   chisq.test()
 ```
+<<<<<<< HEAD
 
 Y según lo visto por los datos observados en la segunda función, entendemos que tampoco podemos rechazar la hipótesis 3 respecto a la aparición de la palabra crímen en ambos medios.
+=======
+ 
+Show in New Window 
+ 
+ 
+Warning: Chi-squared approximation may be incorrect
+	Pearson's Chi-squared test with Yates' continuity correction
+
+data:  .
+X-squared = 0.44861, df = 1, p-value = 0.503
+
+Y según lo visto por los datos observados en la segunda función, tampoco rechazamos la hipótesis número 3, respecto a la aparición de la palabra crímen en ambos medios. 
+>>>>>>> 867baf011106ac61b5d545a6a012e6197e3e4676
