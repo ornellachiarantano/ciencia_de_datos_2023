@@ -1,0 +1,89 @@
+---
+title: "tarea 3"
+author: "ornella chiarantano"
+format: html
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+library(tidytext)
+# Script de conexion a google sheets
+if(!require(googlesheets4)){
+  install.packages("googlesheets4")
+  require(googlesheets4)
+}
+
+gs4_deauth()
+
+my_url3 <-"https://docs.google.com/spreadsheets/d/196c9GIJ97GgERm8QBEEm5LBCPPlOnYxs2TGcMJBWSJA/edit?usp=sharing"
+
+datos_ornella <- googlesheets4::read_sheet(my_url3)
+```
+
+```{r}
+datos_ornella %>% 
+   unnest_tokens(palabra, texto) %>% 
+   mutate(largo_de_palabra = str_length(palabra)) %>% 
+  group_by(medio) %>% 
+  summarise(
+    N=n(),
+    promedio = mean(largo_de_palabra)
+  )
+    
+  
+```
+
+```{r}
+datos_ornella%>% 
+  unnest_tokens(palabra,texto) %>% 
+  group_by(medio, titulo) %>% 
+  summarize(
+    N=n()
+  ) %>% 
+  group_by(medio) %>% 
+  summarize(
+    promedio_palabras = mean(N),
+    desviacion_estandard = sd(N)
+  )
+```
+
+```{r}
+mi_conteo <- my_data %>% 
+  unnest_tokens(palabra,texto) %>% 
+  group_by(medio, titulo) %>% 
+  summarize(
+    N=n()
+  )
+hist(mi_conteo$N)
+```
+
+```{r}
+mi_conteo %>% 
+  ggplot( aes(x=N, fill=medio) )+
+  geom_histogram(position = "dodge")
+
+```
+
+```{r}
+library(stopwords)
+my_stopwords <- stopwords(language = "es")
+head(my_stopwords)
+```
+
+```{r}
+datos_ornella%>% 
+  unnest_tokens(palabra,texto) %>% 
+  group_by(palabra) %>% 
+  count(sort = TRUE) %>% 
+  head(10)
+```
+
+```{r}
+my_data %>% 
+  unnest_tokens(palabra,texto) %>%
+  anti_join( data.frame(palabra = my_stopwords) ) %>% 
+  group_by(palabra) %>% 
+  count(sort = TRUE) %>% 
+  head(50)
+```
