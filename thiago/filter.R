@@ -1,8 +1,8 @@
 
-read_rds("data/scraping-2023-05-22.rds") -> datos05_22
+read_rds("thiago/datos/scraping-2023-03-28.rds") -> datos03_28
 
-filter(datos05_22,str_detect(url,"/seguridad/")) -> datos05_22_url_seguridad
+filter(datos03_28,str_detect(url,"/seguridad/")) -> datos03_28_url_seguridad
 
-filter(datos05_22,str_detect(title,"droga")) -> datos05_22_title_droga
+filter(datos03_28,str_detect(title,"droga")) -> datos03_28_title_droga
 
-filter(datos05_22,str_detect(content,"narco")) -> datos05_22_content_narco
+filter(datos03_28,str_detect(content,"rosario")) -> datos03_28_content_rosario
