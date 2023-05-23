@@ -1,7 +1,10 @@
 
-read_rds("thiago/datos/scraping-2023-03-28.rds") -> datos03_28
 
-filter(datos03_28,str_detect(url,"/seguridad/")) -> datos03_28_url_seguridad
+read_rds("data/scraping-2023-05-08.rds") -> datos05_08
+
+combinada <- rbind(datos05_08, datos03_28)
+
+filter(combinada,str_detect(url,"/seguridad/")) -> combinada_url_seguridad
 
 filter(datos03_28,str_detect(title,"droga")) -> datos03_28_title_droga
 
