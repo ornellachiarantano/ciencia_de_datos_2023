@@ -1,0 +1,51 @@
+---
+title: "Bucles - Iteración"
+format: html
+editor: visual
+---
+
+## Bucle con «for»
+
+```{r}
+for (i in 1:10){
+  cat(i, "\n" )
+}
+```
+
+```{r}
+for(x in c("Jorge","Juan","Camila" )){
+  
+  cat(x, "\n" )
+  
+}
+```
+
+## Bucle con «map»
+
+Map es parte de r-base y también del paquete {purrr}.
+
+```{r}
+purrr::map(1:10,~{
+  cat(.x, "\n")
+})
+```
+
+```{r}
+purrr::map(1:10,~{
+  .x*2
+})
+```
+
+```{r}
+purrr::map(1:10,~{
+  .x*2
+}) %>% unlist() -> my_vec
+```
+
+```{r}
+my_vec
+```
+
+```{r}
+1:10*2
+```
