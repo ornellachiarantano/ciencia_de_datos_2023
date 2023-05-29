@@ -1,0 +1,117 @@
+---
+title: "Notas de clase"
+subtitle: "Juntando los datos"
+author: "Aleksander Dietrichson"
+format: html
+editor: visual
+---
+
+## Juntando algunos datos
+
+```{r}
+library(tidyverse)
+library(tidytext)
+# Script de conexion a google sheets
+if(!require(googlesheets4)){
+  install.packages("googlesheets4")
+  require(googlesheets4)
+}
+
+
+gs4_deauth()
+
+# datos de Thiago
+my_url <- "https://docs.google.com/spreadsheets/d/1XVRSnoMkJTTkp3tRBjJsJLWmtl8cs7ThLf0iwza7L00/edit?usp=sharing"
+
+
+datos_thiago <- googlesheets4::read_sheet(my_url)
+
+
+
+
+```
+
+```{r}
+
+datos_thiago %>% 
+  unnest_tokens(palabra, texto) %>% 
+   mutate(largo_de_palabra = str_length(palabra)) %>% 
+  group_by(medio) %>% 
+  summarise(
+    N=n(),
+    promedio = mean(largo_de_palabra)
+  )
+  
+```
+
+```{r}
+datos_thiago %>% 
+  unnest_tokens(palabra,texto) %>% 
+  group_by(medio, titulo) %>% 
+  summarize(
+    N=n()
+  ) %>% 
+  group_by(medio) %>% 
+  summarize(
+    promedio_palabras = mean(N),
+    desviacion_estandard = sd(N)
+  )
+```
+
+```{r}
+mi_conteo <- datos_thiago %>% 
+  unnest_tokens(palabra,texto) %>% 
+  group_by(medio, titulo) %>% 
+  summarize(
+    N=n()
+  )
+hist(mi_conteo$N)
+```
+
+```{r}
+mi_conteo %>% 
+  ggplot( aes(x=N, fill=medio) )+
+  geom_histogram(position = "dodge")
+```
+
+```{r}
+library(stopwords)
+my_stopwords <- stopwords(language = "es")
+head(my_stopwords)
+```
+
+```{r}
+datos_thiago %>% 
+  unnest_tokens(palabra,texto) %>% 
+  group_by(palabra) %>% 
+  count(sort = TRUE) %>% 
+  head(10)
+```
+
+```{r}
+datos_thiago %>% 
+  unnest_tokens(palabra,texto) %>%
+  anti_join( data.frame(palabra = my_stopwords) ) %>% 
+  group_by(palabra) %>% 
+  count(sort = TRUE) %>% 
+  head(50)
+```
+
+Tarea:
+
+1.  Ampliar analysis ya hecho con visualizacion en ggplot2
+2.  Aplicar uso de stopwords y generar analysis de frecuencias de la palabras del medio eligido.
+
+## Para agragar stop-words
+
+```{r}
+
+my_stopwords <- c(my_stopwords, c("30","dos","marzo"))
+
+my_data %>% 
+  unnest_tokens(palabra,texto) %>%
+  anti_join( data.frame(palabra = my_stopwords) ) %>% 
+  group_by(palabra) %>% 
+  count(sort = TRUE) %>% 
+  head(50)
+```
