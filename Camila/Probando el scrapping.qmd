@@ -1,0 +1,120 @@
+---
+title: "Scrapping - Ambito"
+format: html
+editor: visual
+---
+
+## Intentando hacer Scrapping
+
+#### Prueba de ejemplo nro 1: Ambito 
+
+```{r}
+#| echo: true
+
+library(rvest)
+mi_url <- "https://www.ambito.com/finanzas/trade-electoral-que-datos-pueden-activar-el-rally-alcista-y-que-acciones-seran-las-mas-beneficiadas-n5728625"
+html <- read_html(mi_url)
+
+```
+
+```{r}
+#| echo: true
+
+library(tidyverse)
+html_text(html) %>%
+  substr(1,1000)
+```
+
+### Limpiando el código: 
+
+#### Título. 
+
+```{r}
+#| echo: true
+
+#Extrayendo el título
+html %>%
+  html_element(".news-headline__title") %>%
+  html_text2()
+```
+
+#### Contenido:
+
+Hay dos opciones para extraer el contenido de las notas de Ámbito, primero, agarrando código por código que componen la nota:
+
+```{r}
+#| echo: true
+
+#Contenido de la nota
+html %>%
+  html_nodes(".news-headline__article-summary , .content-protected-false , .article-body--second-paragraph p , .article-body--third-paragraph p , .article-body--fourth-paragraph p , .--s+ .--s") -> mis_nodos 
+length(mis_nodos)
+
+```
+
+```{r}
+#| echo: true
+
+html_text2(mis_nodos)
+
+```
+
+Extracción del contenido agarrando todo lo que compone la columna principal de la noticia en Ámbito:
+
+```{r}
+#| echo: true
+
+html %>%
+  html_nodes(".detail-news__main-column") -> mis_nodos2
+length(mis_nodos2)
+
+```
+
+```{r}
+#| echo: true
+
+html_text2(mis_nodos2)
+
+```
+
+Como no solamente extrae el contenido de la nota, sino también detalles como la subscripción al sitio, la publicidad o los contenidos, decidí realizar la parte del sitemap agarrando código por código como hice en el primer ejemplo de extracción de contenido, así queda la información más limpia y sin tanto código en medio.
+
+## Sitemap Ambito: 
+
+```{r}
+#| echo: true
+
+mis_links <- 
+  read_html("https://www.ambito.com/sitemap.xml") %>%
+  html_nodes("loc")
+length(mis_links)
+html_text2(mis_links) %>%
+  head()
+
+```
+
+#### Bucle
+
+```{r}
+#| echo: fenced
+#| eval: false
+
+datos_camila <- data.frame()
+
+for(i in 1:50){
+  mi_link <- mis_links[i] %>%
+    html_text2()
+  
+  html <- read_html(mi_link)
+  
+  html %>%
+    html_element(".news-headline__title") %>%
+    html_text2() -> mi_titulo
+  html %>%
+    html_nodes(".news-headline__article-summary , .content-protected-false , .article-body--second-paragraph p , .article-body--third-paragraph p , .article-body--fourth-paragraph p , .--s+ .--s") %>%
+    html_text2() %>%
+    paste(collapse = " ") -> contenido_
+  datos_camila <- rbind(datos_camila, data.frame(titulo = mi_titulo, content = contenido_))
+}
+
+```
