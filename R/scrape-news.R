@@ -23,3 +23,4 @@ scrape_news <- function(url,
   data.frame(url = url, title = my_title, content = my_content, author = my_author)
   
 }
+
