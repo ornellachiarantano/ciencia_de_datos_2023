@@ -47,3 +47,11 @@ Pregunta: Hay algun patrón?
 2.  Eligir otro medio de los disponibles, calcular su frecuencia.
 3.  Formular una hipótesis sobre la frecuencia comparativa.
 4.  Testear la hipótesis e interpretar los resultados.
+
+## Tarea 5
+
+1.   Sacar dos muestras de algún periódico de los que hemos scrapeado.
+
+2.  Formular hipótesis sobre p.e. largo de las notas
+
+3.  Testear la hipótesis con test de T.
