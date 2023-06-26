@@ -1,0 +1,68 @@
+---
+title: "Tarea5"
+format: html
+editor: visual
+---
+
+## Tarea 5 - Datos - Scrape Periódicos
+
+#### Datos Ambito:
+
+```{r}
+mi_data <- readRDS("/cloud/project/data/scraping-2023-05-29.rds")
+mi_data <- mi_data %>% 
+  filter(str_detect(url,"/politica") |
+           str_detect(url,"/economia")
+  )
+nrow(mi_data)
+```
+
+```{r}
+mi_data <- mi_data %>% 
+  mutate(word_count = str_count(content," ") + 1)
+```
+
+Hipótesis nula: La cantidad de palabras tanto en las noticias de economía como las de política es similar o igual.
+
+Hipótesis alternativa: La cantidad de palabras es mayor en las noticias sobre economía.
+
+$$
+H_0: \mu(words)_P = \mu(words)_E \\
+H_1: \mu(words)_P > \mu(words)_E \\
+H_2: \mu(words)_P < \mu(words)_E \\
+$$
+
+```{r}
+noticias_politica <- mi_data %>% 
+  filter(str_detect(url,"/politica"))
+
+noticias_economia <- mi_data %>% 
+  filter(str_detect(url,"/economia"))
+```
+
+```{r}
+noticias_politica$word_count %>% 
+  summary()
+```
+
+```{r}
+noticias_politica$word_count %>% 
+  mean()
+```
+
+```{r}
+noticias_economia$word_count %>% 
+  summary()
+
+```
+
+```{r}
+noticias_economia$word_count %>% 
+  mean()
+```
+
+```{r}
+t.test(noticias_politica$word_count, noticias_economia$word_count)
+```
+
+Por los datos relevados por la función, entiendo que no hay datos suficientes por el momento para confirmar ni negar la hipótesis nula.
