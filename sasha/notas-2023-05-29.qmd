@@ -1,0 +1,66 @@
+---
+title: "Test de T"
+format: html
+editor: visual
+---
+
+## Datos
+
+```{r}
+my_data <- readRDS("/cloud/project/data/scraping-2023-05-08.rds")
+my_data <- my_data %>% 
+  filter(str_detect(url,"/politica") |
+           str_detect(url,"/deportes")
+  )
+nrow(my_data)
+
+  
+```
+
+```{r}
+my_data <- my_data %>% 
+  mutate(word_count = str_count(content," ") + 1)
+```
+
+$$
+H_0: \mu(words)_P = \mu(words)_D \\
+H_1: \mu(words)_P > \mu(words)_D \\
+H_2: \mu(words)_P < \mu(words)_D \\
+$$
+
+La hipótesis nula es que la cantidad de palabras de los artículos deportivos y los de política se asemejan, la alternativa es que las notas de política tienden a ser más largos.
+
+```{r}
+noticias_deportes <- my_data %>% 
+  filter(str_detect(url,"/deportes"))
+
+noticias_politicas <- my_data %>% 
+  filter(str_detect(url,"/politica"))
+```
+
+```{r}
+noticias_deportes$word_count %>% 
+  summary()
+```
+
+```{r}
+noticias_deportes$word_count %>% 
+  mean()
+```
+
+```{r}
+noticias_politicas$word_count %>% 
+  mean()
+```
+
+```{r}
+t.test(noticias_deportes$word_count, noticias_politicas$word_count)
+```
+
+## Tarea 
+
+1.  Sacar dos muestras de algún periódico de los que hemos scrapeado
+
+2.  Formular hipótesis sobre p.e. largo de las notas
+
+3.  Testear la hipótesis con test de T.

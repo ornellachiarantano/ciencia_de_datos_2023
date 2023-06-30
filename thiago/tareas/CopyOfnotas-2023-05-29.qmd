@@ -1,0 +1,66 @@
+---
+title: "Test de T"
+format: html
+editor: visual
+---
+
+## Datos
+
+```{r}
+misdatos <- readRDS("/cloud/project/thiago/scrapetarea4dejunio.rds")
+misdatos <- misdatos %>% 
+  filter(str_detect(url,"/seguridad") |
+           str_detect(url,"/espectaculos")
+  )
+nrow(misdatos)
+
+
+  
+```
+
+```{r}
+misdatos <- misdatos %>% 
+  mutate(word_count = str_count(content," ") + 1)
+```
+
+$$
+H_0: \mu(words)_P > \mu(words)_D \\
+H_1: \mu(words)_P = \mu(words)_D \\
+$$
+
+La hipótesis nula es que la cantidad de palabras de los artículos seguridad tienden a ser mas largos que los de espectaculos, mientras que la alternativa plantea que se asemejan.
+
+```{r}
+noticias_seguridad <- misdatos %>% 
+  filter(str_detect(url,"/seguridad"))
+
+noticias_espectaculos <- misdatos%>% 
+  filter(str_detect(url,"/espectaculos"))
+```
+
+```{r}
+noticias_seguridad$word_count %>% 
+  summary()
+```
+
+```{r}
+noticias_seguridad$word_count %>% 
+  mean()
+```
+
+```{r}
+noticias_espectaculos$word_count %>% 
+  mean()
+```
+
+```{r}
+t.test(noticias_seguridad$word_count, noticias_espectaculos$word_count)
+```
+
+## Tarea
+
+1.  Sacar dos muestras de algún periódico de los que hemos scrapeado
+
+2.  Formular hipótesis sobre p.e. largo de las notas
+
+3.  Testear la hipótesis con test de T.
