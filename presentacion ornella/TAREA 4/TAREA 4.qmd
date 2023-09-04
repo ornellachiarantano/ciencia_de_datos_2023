@@ -1,0 +1,44 @@
+---
+title: "tarea 4"
+author: "Ornella chiarantano"
+format: html
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+library(tidytext)
+gs4_deauth()
+```
+
+```{r}
+gs <- "https://docs.google.com/spreadsheets/d/196c9GIJ97GgERm8QBEEm5LBCPPlOnYxs2TGcMJBWSJA/edit?usp=sharing"
+```
+
+```{r}
+datos_ornella <- googlesheets4::read_sheet(gs, sheet = 1)
+```
+
+```{r}
+datos_ornella <- (
+  bind_rows(
+    datosinfobae,
+  )
+)
+```
+
+**Hipotesis**
+
+$H_0: f(dolar)_A = f(dolar)_N$
+
+$H_1: f(dolar)_A > f(dolar)_N$
+
+```{r}
+datos_ornella %>% 
+  group_by(medio) %>% 
+  reframe(
+    Mencion = str_detect(texto,'dólar')
+  ) %>% 
+  table() %>% 
+  chisq.test()
+```
