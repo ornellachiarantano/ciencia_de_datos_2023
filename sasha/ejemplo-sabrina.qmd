@@ -1,0 +1,16 @@
+---
+title: "Ejemplo de Analisis para Sabrina"
+format: html
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+library(tidytext)
+my_data <- readRDS("/cloud/project/data/scraping-2023-05-08.rds")
+
+my_data %>% 
+  filter(str_detect(content,"enfermedad")) %>% 
+  nrow()
+
+```
