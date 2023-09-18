@@ -17,5 +17,5 @@ purrr::map(my_links,~{
   scrape_news(html_text2(.x))
 }) %>% 
   bind_rows()-> my_data
-readr::write_rds(my_data, here::here("data","scraping-2023-05-08.rds"))
+readr::write_rds(my_data, here::here("thiago/datos","scraping-2023-06-04.rds"))
 
