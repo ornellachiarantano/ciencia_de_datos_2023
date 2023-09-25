@@ -1,0 +1,57 @@
+---
+title: "Topic Modeling"
+format: html
+editor: visual
+---
+
+## Setup y paquetes
+
+```{r}
+#| label: setup
+#| include: false
+
+library(tidyverse)
+library(tidytext)
+library(ggwordcloud)
+library(stopwords)
+library(topicmodels)
+library(ldatuning)
+library(syuzhet)
+
+```
+
+## Data
+
+```{r}
+my_data <- readr::read_rds(here::here("data","scraping-clarin-2023-09-25.rds"))
+```
+
+```{r}
+nrow(my_data)
+```
+
+## Filtros
+
+### Función de busqueda
+
+```{r}
+my_data %>% 
+  filter(stringr::str_detect(content,"narcotráfico")) -> narcotrafico
+
+my_data %>% 
+  filter(stringr::str_detect(content,"narco")) -> narco
+
+my_data %>% 
+  filter(stringr::str_detect(content,"droga")) -> droga
+
+```
+
+```{r}
+nrow(narcotrafico)
+nrow(narco)
+nrow(droga)
+```
+
+## Topic Modeling
+
+TBC

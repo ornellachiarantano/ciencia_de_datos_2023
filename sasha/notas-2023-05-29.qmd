@@ -57,7 +57,7 @@ noticias_politicas$word_count %>%
 t.test(noticias_deportes$word_count, noticias_politicas$word_count)
 ```
 
-## Tarea 
+## Tarea
 
 1.  Sacar dos muestras de algún periódico de los que hemos scrapeado
 
