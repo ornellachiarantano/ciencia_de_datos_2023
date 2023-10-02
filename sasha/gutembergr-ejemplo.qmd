@@ -1,0 +1,29 @@
+---
+title: "Gutembergr"
+format: html
+editor: visual
+---
+
+## Gutembergr
+
+```{r}
+library(devtools)
+if(!require(gutenbergr)){
+  devtools::install_github("ropensci/gutenbergr")
+}
+
+library(gutenbergr)
+
+```
+
+```{r}
+gutenberg_works(languages = "es") 
+```
+
+Qué autores hay en español
+
+```{r}
+gutenberg_works(languages = "es") %>% 
+  group_by(author) %>% 
+  count(sort=TRUE)
+```
