@@ -115,3 +115,20 @@ my_data %>%
   count(sort = TRUE) %>% 
   head(50)
 ```
+
+```{r}
+visualstop<- my_data%>% 
+  unnest_tokens(palabra,texto) %>%
+  anti_join( data.frame(palabra = my_stopwords) ) %>%
+  group_by(palabra) %>% 
+  summarize(
+    N=n()
+  )%>% arrange(desc(N)) %>% 
+  slice_head(n=10)
+```
+
+```{r}
+visualstop %>% 
+  ggplot( aes(x=palabra, y=N ) )+
+  geom_col()
+```

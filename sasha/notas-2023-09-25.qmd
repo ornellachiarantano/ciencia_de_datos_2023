@@ -1,0 +1,16 @@
+---
+title: "Notas de clase 25 de septiembre"
+format: html
+editor: visual
+---
+
+## Datos del Clarin
+
+```{r}
+library(readr)
+my_data <- read_csv(here::here("data","clarin-20230201-20230815.csv"))
+```
+
+```{r}
+names(my_data)
+```

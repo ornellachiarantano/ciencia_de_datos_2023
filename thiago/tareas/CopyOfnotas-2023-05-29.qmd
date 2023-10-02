@@ -24,11 +24,11 @@ misdatos <- misdatos %>%
 ```
 
 $$
-H_0: \mu(words)_P > \mu(words)_D \\
-H_1: \mu(words)_P = \mu(words)_D \\
+H_0: \mu(words)_P = \mu(words)_D \\
+H_1: \mu(words)_P > \mu(words)_D \\
 $$
 
-La hipótesis nula es que la cantidad de palabras de los artículos seguridad tienden a ser mas largos que los de espectaculos, mientras que la alternativa plantea que se asemejan.
+La hipótesis nula es que la cantidad de palabras de los artículos se asemejan, y la alternativa es que la de seguridad son mas largas.
 
 ```{r}
 noticias_seguridad <- misdatos %>% 

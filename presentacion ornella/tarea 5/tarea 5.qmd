@@ -1,0 +1,48 @@
+---
+title: "tarea 5"
+author: "ornella chiarantano"
+format: html
+editor: visual
+---
+
+```{r}
+datos_ornella <- readRDS("/cloud/project/data/scraping-2023-05-08.rds")
+datos_ornella <- datos_ornella %>% 
+  filter(str_detect(url,"/politica") |
+           str_detect(url,"/deportes")
+  )
+nrow(datos_ornella)
+
+```
+
+```{r}
+datos_ornella <- datos_ornella %>% 
+  mutate(word_count = str_count(content," ") + 1)
+```
+
+```{r}
+noticias_deportes <- datos_ornella %>% 
+  filter(str_detect(url,"/deportes"))
+
+noticias_politicas <- datos_ornella %>% 
+  filter(str_detect(url,"/politica"))
+```
+
+```{r}
+noticias_deportes$word_count %>% 
+  summary()
+```
+
+```{r}
+noticias_deportes$word_count %>% 
+  mean()
+```
+
+```{r}
+noticias_politicas$word_count %>% 
+  mean()
+```
+
+```{r}
+t.test(noticias_deportes$word_count, noticias_politicas$word_count)
+```

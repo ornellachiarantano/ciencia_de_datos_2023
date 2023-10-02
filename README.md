@@ -25,3 +25,7 @@ Bienvenidos! Este repositorio contiene los archivos y códigos del seminario de 
 -   Crear un documento .qmd dentro de la carpeta
 -   Realizar un «commit» y un «push»
 -   Luego, desde la interface de github realizar un «pull request»
+
+## Tareas
+
+[Tareas para el seminario](https://dietrichson.github.io/ciencia_de_datos_2023/tareas.html)

@@ -1,0 +1,113 @@
+---
+title: "Modelado de temas"
+author: "Sasha"
+format: html
+editor: visual
+---
+
+## Datos
+
+```{r}
+#| label: setup
+#| include: false
+library(tidyverse)
+```
+
+Vamos a usar los datos que ya tenemos - La Nación.
+
+```{r}
+my_data <- readr::read_rds(here::here("data","scraping-2023-05-08.rds"))
+```
+
+Filtramos por deportes y política.
+
+```{r}
+my_data <- my_data %>% 
+  filter(
+    str_detect(url,"/politica/") |
+    str_detect(url, "/deportes/")
+         )
+
+# Check
+nrow(my_data)
+```
+
+Agregamos una columna para separar los dos grupos:
+
+```{r}
+my_data <- my_data %>% 
+  #mutate(topic = ifelse(str_detect(url,"politica"),"Pol",NA)) %>% 
+  mutate(tema = case_when(
+    str_detect(url,"/politica/") ~ "Pol",
+    str_detect(url,"/deportes/") ~ "Dep",
+    .default = as.character(NA)
+    )
+  )
+```
+
+Unamos título y tema en una variable para poder evaluar los resultados llamamos la variable `document` (es el default)
+
+```{r}
+my_data <- my_data %>% 
+  unite(document, tema, title)
+
+```
+
+## Latent Dirichlet allocation (LDA)
+
+```{r}
+library(tidytext)
+my_data %>% 
+  unnest_tokens(word,content) -> por_titulo_palabra
+```
+
+```{r}
+
+mis_stop_words <- data.frame(word = stopwords::stopwords(language = "es"))
+
+por_titulo_palabra %>% 
+  anti_join(mis_stop_words) %>% 
+  count(document, word ,sort=TRUE) -> cuenta_palabras
+```
+
+```{r}
+my_dtm <- cuenta_palabras %>% 
+  cast_dtm(document,word,n)
+```
+
+```{r}
+library(topicmodels)
+my_lda <- LDA(my_dtm, k = 2, control = list(seed=1234))
+```
+
+```{r}
+my_lda %>% 
+  tidy(matrix = "beta") -> mis_temas
+mis_temas %>% head()
+```
+
+```{r}
+mis_temas %>% 
+  group_by(topic) %>% 
+  slice_max(beta,n=10) %>% 
+  ungroup() %>% 
+  arrange(topic, -beta)
+```
+
+```{r}
+my_lda2 <- LDA(my_dtm, k = 4, control = list(seed=1234))
+```
+
+```{r}
+my_lda2 %>% 
+  tidy(matrix = "beta") -> mis_temas4
+mis_temas4 %>% head()
+```
+
+```{r}
+mis_temas4 %>% 
+  group_by(topic) %>% 
+  slice_max(beta,n=10) %>% 
+  ungroup() %>% 
+  arrange(topic, -beta)
+```
