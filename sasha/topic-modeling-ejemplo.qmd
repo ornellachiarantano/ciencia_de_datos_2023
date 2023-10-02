@@ -54,4 +54,78 @@ nrow(droga)
 
 ## Topic Modeling
 
-TBC
+Antes corrimos
+
+-   R/topic-modeling-thiago-ejemplo.R
+
+Y generamos el output que ven en el bloque de código:
+
+```{r}
+#! echo: false
+my_data <- read_rds( here::here('data/topic-modeling-2023-10-02.rds'))
+
+my_data$evaluation %>% FindTopicsNumber_plot()
+```
+
+```{r}
+#| echo: false
+my_lda <- LDA(my_data$DTM, k=6, control = list( seed = 1234 ) )
+```
+
+```{r}
+#! echo: false
+my_topics <- tidy(my_lda, matrix = "beta")
+my_topics %>% 
+  group_by(topic) %>% 
+  slice_max(beta, n=8) %>% 
+  filter(term != "error") %>% 
+  summarize(
+    Palabras = paste(term, collapse = " ")
+  ) %>%
+  mutate(Tema = as.roman(topic)) -> term_by_topic
+ 
+```
+
+```{r}
+term_by_topic %>%  
+   knitr::kable()
+```
+
+## Ahora con 13 topics
+
+```{r}
+#| echo: false
+my_lda <- LDA(my_data$DTM, k=13, control = list( seed = 1234 ) )
+my_topics <- tidy(my_lda, matrix = "beta")
+my_topics %>% 
+  group_by(topic) %>% 
+  slice_max(beta, n=8) %>% 
+  filter(term != "error") %>% 
+  summarize(
+    Palabras = paste(term, collapse = " ")
+  ) %>%
+  mutate(Tema = as.roman(topic)) -> term_by_topic
+term_by_topic %>%
+  select(Tema, Palabras) %>% 
+   knitr::kable()
+
+```
+
+## Ahora con 30
+
+```{r}
+#| echo: false
+my_lda <- LDA(my_data$DTM, k=30, control = list( seed = 1234 ) )
+my_topics <- tidy(my_lda, matrix = "beta")
+my_topics %>% 
+  group_by(topic) %>% 
+  slice_max(beta, n=8) %>% 
+  filter(term != "error") %>% 
+  summarize(
+    Palabras = paste(term, collapse = " ")
+  ) %>%
+  mutate(Tema = as.roman(topic)) -> term_by_topic
+term_by_topic %>%
+  select(Tema, Palabras) %>% 
+   knitr::kable()
+```
