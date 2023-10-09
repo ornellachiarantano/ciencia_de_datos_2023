@@ -1,0 +1,56 @@
+---
+title: "Rayela - ETL"
+format: html
+editor: visual
+---
+
+## Rayuela
+
+Tenemos el libro en formato PDF así que usamos el paquete correspondiente para extraer los datos en formato texto.
+
+### Instalación
+
+Instalamos el paquete *pdftools* si no está instalado:
+
+```{r}
+if(!require(pdftools)){
+  install.packages("pdftools")
+}
+library(pdftools)
+library(tidyverse)
+```
+
+Intentamos cargar los datos
+
+```{r}
+my_pdf_filename <- here::here("data/julio-cortazar-rayuela.pdf")
+my_pdf <- pdftools::pdf_text(my_pdf_filename)
+head(my_pdf, n=10)
+```
+
+parece que tenemos un vector de characteres por página aunque el número de página está en desface -1, seguramente porque la página inicial del título no lleva número.
+
+Armemos data-frame
+
+```{r}
+my_data <- data.frame(text = my_pdf) %>% 
+  # Agregamos número de página ya que tiene cierta relevancia para el análisis
+  mutate(page = 1:length(my_pdf))
+```
+
+### Si queremos una fila por linea en el texto
+
+```{r}
+my_data <- my_data %>% 
+  mutate(text = stringr::str_split(text,"\n")) %>% 
+  unnest(text)
+```
+
+vemos:
+
+```{r}
+my_data %>% 
+  head(n=100)
+```
+
+TBD: Cómo sacar los capítulos
