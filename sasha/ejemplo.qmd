@@ -1,0 +1,33 @@
+---
+title: "Untitled"
+author: "Sasha"
+format: pdf
+editor: visual
+bibliography: references.bib
+---
+
+## Avances
+
+No hice nada en realidad.
+
+```{r}
+#| echo: false
+#| fig-cap: "Un lindo título"
+plot(1:10,1:10)
+```
+
+## Agenda para el futuro
+
+-   Hacer algo
+
+-   Terminar un análisis
+
+## Un poco de codigo
+
+```{r}
+1+1
+```
+
+Usé los paquetes @base
+
+## Referencias
