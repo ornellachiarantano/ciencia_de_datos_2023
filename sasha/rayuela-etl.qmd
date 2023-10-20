@@ -133,3 +133,24 @@ my_data$capitulo
 **QED**
 
 ## Sacar los hipervínculos.
+
+Están en formato (-131) así que podemos usar el regex (?\<=\\(\\-)(\\d+)(?=\\))
+
+Ejemplo:
+
+```{r}
+str_extract(my_data$text[393], "(?<=\\(\\-)(\\d+)(?=\\))")
+```
+
+```{r}
+my_data$vilculo <- map_int(my_data$text,~{
+  str_extract(.x, "(?<=\\(\\-)(\\d+)(?=\\))") %>% 
+    as.numeric()
+})
+```
+
+## Gardamos datos
+
+```{r}
+readr::write_rds(my_data,here::here("data/rayuela-procesado.rds"))
+```
