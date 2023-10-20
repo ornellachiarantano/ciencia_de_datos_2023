@@ -53,4 +53,83 @@ my_data %>%
   head(n=100)
 ```
 
-TBD: Cómo sacar los capítulos
+## Cómo sacar los capítulos
+
+```         
+[5] "                                                                                    1\n                                                                                   1\n   ¿Encontraría a la Maga?
+```
+
+aparentemente los capítulos (el número del mismo) está indicado en las primeras dos lineas de cada bloque y arranca en la página 5. Podemos valernos de ello para asignar el número correspondiente.
+
+```{r}
+my_data <- data.frame(text = my_pdf)
+
+my_data$capitulo <- map_int(my_data$text,~{
+  str_extract(.x,"\\d+\\n") %>% 
+    as.numeric()
+})
+
+max(my_data$capitulo, na.rm = TRUE)
+
+```
+
+Hacemos un chequeo:
+
+```{r}
+max(my_data$capitulo, na.rm = TRUE)
+```
+
+OK hay un problema
+
+```{r}
+my_data$capitulo[376:401]
+```
+
+Al final del capitulo 56/principio del 57 especificamente:
+
+```{r}
+which(my_data$capitulo==389)
+```
+
+En la página 388.
+
+Veamos:
+
+```{r}
+my_data$text[388]
+```
+
+Es una página sin capítulo que indica una sección. Tenemos dos opciones:\
+
+1.  Refinar nuestro regex
+2.  Modificarlo a mano.
+
+La opción 2 tiene la desventaja de no ser *reproducible* (p.e. si se usa otra edición del mismo texto)
+
+El regex tiene la opción \^ para indicar inicio del vector de characteres. Para asegurar que esté en esa posición podemos usar `str_trim`
+
+```{r}
+my_data$capitulo <- map_int(my_data$text,~{
+  str_extract(str_trim(.x),"^\\d+\\n") %>% 
+    as.numeric()
+})
+
+
+```
+
+Verificamos:
+
+```{r}
+my_data$capitulo %>% 
+  max(na.rm = TRUE)
+```
+
+y
+
+```{r}
+my_data$capitulo
+```
+
+**QED**
+
+## Sacar los hipervínculos.
