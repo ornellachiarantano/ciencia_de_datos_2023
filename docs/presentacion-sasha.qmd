@@ -1,0 +1,41 @@
+---
+title: "Presentación"
+subtitle: "Presentación de prueba"
+author: "Aleksander Dietrichson"
+format:
+  revealjs: 
+    theme: dark
+editor: visual
+---
+
+## Ejemplo de ggdark
+
+```{r}
+library(tidyverse)
+library(ggdark)
+mtcars %>% 
+  ggplot(aes(mpg,cyl))+
+  geom_point()+
+  geom_smooth(method = "lm")
+```
+
+## Ejemplo de ggdark
+
+```{r}
+mtcars %>% 
+  ggplot(aes(mpg,cyl))+
+  geom_point()+
+  geom_smooth(method = "lm")+
+  dark_theme_bw()
+```
+
+## Ejemplo con codigo
+
+```{r}
+#| echo: true
+mtcars %>% 
+  ggplot(aes(mpg,cyl))+
+  geom_point()+
+  geom_smooth(method = "lm")+
+  dark_theme_bw()
+```

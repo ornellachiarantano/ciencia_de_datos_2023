@@ -1,0 +1,156 @@
+---
+title: "Rayela - ETL"
+format: html
+editor: visual
+---
+
+## Rayuela
+
+Tenemos el libro en formato PDF así que usamos el paquete correspondiente para extraer los datos en formato texto.
+
+### Instalación
+
+Instalamos el paquete *pdftools* si no está instalado:
+
+```{r}
+if(!require(pdftools)){
+  install.packages("pdftools")
+}
+library(pdftools)
+library(tidyverse)
+```
+
+Intentamos cargar los datos
+
+```{r}
+my_pdf_filename <- here::here("data/julio-cortazar-rayuela.pdf")
+my_pdf <- pdftools::pdf_text(my_pdf_filename)
+head(my_pdf, n=10)
+```
+
+parece que tenemos un vector de characteres por página aunque el número de página está en desface -1, seguramente porque la página inicial del título no lleva número.
+
+Armemos data-frame
+
+```{r}
+my_data <- data.frame(text = my_pdf) %>% 
+  # Agregamos número de página ya que tiene cierta relevancia para el análisis
+  mutate(page = 1:length(my_pdf))
+```
+
+### Si queremos una fila por linea en el texto
+
+```{r}
+my_data <- my_data %>% 
+  mutate(text = stringr::str_split(text,"\n")) %>% 
+  unnest(text)
+```
+
+vemos:
+
+```{r}
+my_data %>% 
+  head(n=100)
+```
+
+## Cómo sacar los capítulos
+
+```         
+[5] "                                                                                    1\n                                                                                   1\n   ¿Encontraría a la Maga?
+```
+
+aparentemente los capítulos (el número del mismo) está indicado en las primeras dos lineas de cada bloque y arranca en la página 5. Podemos valernos de ello para asignar el número correspondiente.
+
+```{r}
+my_data <- data.frame(text = my_pdf)
+
+my_data$capitulo <- map_int(my_data$text,~{
+  str_extract(.x,"\\d+\\n") %>% 
+    as.numeric()
+})
+
+max(my_data$capitulo, na.rm = TRUE)
+
+```
+
+Hacemos un chequeo:
+
+```{r}
+max(my_data$capitulo, na.rm = TRUE)
+```
+
+OK hay un problema
+
+```{r}
+my_data$capitulo[376:401]
+```
+
+Al final del capitulo 56/principio del 57 especificamente:
+
+```{r}
+which(my_data$capitulo==389)
+```
+
+En la página 388.
+
+Veamos:
+
+```{r}
+my_data$text[388]
+```
+
+Es una página sin capítulo que indica una sección. Tenemos dos opciones:\
+
+1.  Refinar nuestro regex
+2.  Modificarlo a mano.
+
+La opción 2 tiene la desventaja de no ser *reproducible* (p.e. si se usa otra edición del mismo texto)
+
+El regex tiene la opción \^ para indicar inicio del vector de characteres. Para asegurar que esté en esa posición podemos usar `str_trim`
+
+```{r}
+my_data$capitulo <- map_int(my_data$text,~{
+  str_extract(str_trim(.x),"^\\d+\\n") %>% 
+    as.numeric()
+})
+
+
+```
+
+Verificamos:
+
+```{r}
+my_data$capitulo %>% 
+  max(na.rm = TRUE)
+```
+
+y
+
+```{r}
+my_data$capitulo
+```
+
+**QED**
+
+## Sacar los hipervínculos.
+
+Están en formato (-131) así que podemos usar el regex (?\<=\\(\\-)(\\d+)(?=\\))
+
+Ejemplo:
+
+```{r}
+str_extract(my_data$text[393], "(?<=\\(\\-)(\\d+)(?=\\))")
+```
+
+```{r}
+my_data$vilculo <- map_int(my_data$text,~{
+  str_extract(.x, "(?<=\\(\\-)(\\d+)(?=\\))") %>% 
+    as.numeric()
+})
+```
+
+## Gardamos datos
+
+```{r}
+readr::write_rds(my_data,here::here("data/rayuela-procesado.rds"))
+```

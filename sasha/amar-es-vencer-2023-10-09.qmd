@@ -1,0 +1,41 @@
+---
+title: "Amar Es Vencer"
+format: html
+editor: visual
+---
+
+```{r}
+#| label: setup
+#| include: false
+library(tidyverse)
+library(tidytext)
+library(gutenbergr)
+```
+
+Vemos si está la obra:
+
+```{r}
+my_data <- gutenberg_download(gutenberg_id = 24925 )
+head(my_data)
+```
+
+```{r}
+nrow(my_data)
+```
+
+Estructura de la página:
+
+```{r}
+head(my_data, n=100)
+```
+
+Cambiar el «encoding»
+
+```{r}
+my_data$text <- my_data$text %>% 
+  stringr::str_conv("ISO-8859-1") # Sale de Gutenberg
+```
+
+```{r}
+my_data$text[1:100]
+```
