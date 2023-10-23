@@ -2,25 +2,40 @@
 title: "Presentación"
 subtitle: "Presentación de prueba"
 author: "Aleksander Dietrichson"
-format: revealjs
+format:
+  revealjs: 
+    theme: dark
 editor: visual
 ---
 
-## Quarto
-
-Quarto enables you to weave together content and executable code into a finished presentation. To learn more about Quarto presentations see <https://quarto.org/docs/presentations/>.
-
-## Bullets
-
-When you click the **Render** button a document will be generated that includes:
-
--   Content authored with markdown
--   Output from executable code
-
-## Code
-
-When you click the **Render** button a presentation will be generated that includes both content and the output of embedded code. You can embed code like this:
+## Ejemplo de ggdark
 
 ```{r}
-1 + 1
+library(tidyverse)
+library(ggdark)
+mtcars %>% 
+  ggplot(aes(mpg,cyl))+
+  geom_point()+
+  geom_smooth(method = "lm")
+```
+
+## Ejemplo de ggdark
+
+```{r}
+mtcars %>% 
+  ggplot(aes(mpg,cyl))+
+  geom_point()+
+  geom_smooth(method = "lm")+
+  dark_theme_bw()
+```
+
+## Ejemplo con codigo
+
+```{r}
+#| echo: true
+mtcars %>% 
+  ggplot(aes(mpg,cyl))+
+  geom_point()+
+  geom_smooth(method = "lm")+
+  dark_theme_bw()
 ```
