@@ -100,7 +100,7 @@ ggraph(my_graph, layout = 'linear') +
   geom_node_text(aes(label = capitulo))
 ```
 
-## Plot
+## Plot con {ggraph}
 
 ```{r}
 ggraph(my_graph, layout = 'linear', circular = TRUE) + 
