@@ -50,7 +50,7 @@ Pregunta: Hay algun patrón?
 
 ## Tarea 5
 
-1.   Sacar dos muestras de algún periódico de los que hemos scrapeado.
+1.  Sacar dos muestras de algún periódico de los que hemos scrapeado.
 
 2.  Formular hipótesis sobre p.e. largo de las notas
 
