@@ -96,8 +96,4 @@ dataset %>%
   )
 ```
 
-
-
-##### Contabilicé las palabras por título, ya que estaba tomando la información de un solo diario 
-
-
+##### Contabilicé las palabras por título, ya que estaba tomando la información de un solo diario
