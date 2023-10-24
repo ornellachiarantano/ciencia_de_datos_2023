@@ -143,13 +143,13 @@ str_extract(my_data$text[393], "(?<=\\(\\-)(\\d+)(?=\\))")
 ```
 
 ```{r}
-my_data$vilculo <- map_int(my_data$text,~{
+my_data$vinculo <- map_int(my_data$text,~{
   str_extract(.x, "(?<=\\(\\-)(\\d+)(?=\\))") %>% 
     as.numeric()
 })
 ```
 
-## Gardamos datos
+## Guardamos datos
 
 ```{r}
 readr::write_rds(my_data,here::here("data/rayuela-procesado.rds"))

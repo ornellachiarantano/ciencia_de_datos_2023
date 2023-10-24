@@ -1,0 +1,110 @@
+---
+title: "Vinculos de Rayuela"
+author: "Aleksander Dietrichson"
+format: 
+  revealjs:
+    theme: dark
+    chalkboard: true
+editor: visual
+---
+
+## Datos
+
+```{r}
+#| label: setup
+#| include: false
+
+library(tidyverse)
+
+```
+
+Los datos ya se encuentran procesados. Los podemos cargar desde el *cache*.
+
+```{r}
+# echo: true
+my_data <- readr::read_rds(here::here("data/rayuela-procesado.rds"))
+names(my_data)
+```
+
+## Filtrado de datos
+
+Los datos que tenemos contienen una fila por página. El hipervínculo se encuentra en la ultima página del capítulo a menos que el capítulo no tiene hipervínculo. Los podemos sacar así:
+
+```{r}
+#| echo: true
+my_data <- my_data %>% 
+  group_by(capitulo) %>% 
+  summarize(
+    vinculo = first(na.omit(vinculo)) # toma el primer no-NA si es que hay
+  )
+```
+
+## Packetes tidygraph y ggraph
+
+Si no lo tenemos instalado ya el código que sigue lo instala.
+
+```{r}
+#| echo: true
+if(!require(tidygraph)){
+  install.packages("tidygraph")
+}
+library(tidygraph)
+
+
+if(!require(ggraph)){
+  install.packages("ggraph")
+}
+library(ggraph)
+
+```
+
+## Graphos
+
+El *grapho* es una estructura matemática que consiste en nodos y vínculos. Para generar el grapho con el paquete *tidygraph hay que* convertirlos a caracteres.
+
+```{r}
+#| echo: true
+my_nodes <- data.frame( capitulo = my_data$capitulo %>% 
+                          as.character() )
+my_edges <- data.frame( from = my_data$capitulo %>% 
+                          as.character(), 
+                        to = my_data$vinculo %>% 
+                          as.character() )
+
+my_graph <- tbl_graph(nodes = my_nodes, edges = my_edges)
+```
+
+## Plot Default
+
+```{r}
+#| echo: true
+plot(my_graph)
+```
+
+El plot default parece caótico y poco estético.
+
+## Plot con {ggraph}
+
+```{r}
+ggraph(my_graph, layout = 'linear') + 
+  geom_edge_arc()
+
+```
+
+## Plot con {ggraph}
+
+```{r}
+ggraph(my_graph, layout = 'linear') + 
+  geom_edge_arc()+
+  geom_node_point()+
+  geom_node_text(aes(label = capitulo))
+```
+
+## Plot
+
+```{r}
+ggraph(my_graph, layout = 'linear', circular = TRUE) + 
+  geom_edge_arc()+
+  geom_node_point(size = 4, color = "white")+
+  geom_node_text(aes(label = capitulo))
+```

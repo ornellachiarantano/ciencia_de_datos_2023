@@ -2,9 +2,10 @@
 title: "Presentación"
 subtitle: "Presentación de prueba"
 author: "Aleksander Dietrichson"
-format:
-  revealjs: 
+format: 
+  revealjs:
     theme: dark
+    chalkboard: true
 editor: visual
 ---
 
@@ -37,5 +38,5 @@ mtcars %>%
   ggplot(aes(mpg,cyl))+
   geom_point()+
   geom_smooth(method = "lm")+
-  dark_theme_bw()
+  dark_theme_bw() # Esta linea reversa los colores
 ```
