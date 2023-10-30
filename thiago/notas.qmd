@@ -1,0 +1,26 @@
+---
+title: "muestra"
+format: html
+editor: visual
+---
+
+## Muestra
+
+```{r}
+#| echo: false
+a <- 1+1
+a
+```
+
+Ejemplo del libro
+
+```{r}
+sample(x = 1:200, size = 20)
+```
+
+Setear la semilla
+
+```{r}
+set.seed(123)
+sample(x = 1:200, size = 20)
+```

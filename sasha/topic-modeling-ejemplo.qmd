@@ -23,7 +23,7 @@ library(syuzhet)
 ## Data
 
 ```{r}
-my_data <- readr::read_rds(here::here("data","scraping-clarin-2023-09-25.rds"))
+my_data <- readr::read_rds(here::here("data","topic-modeling-2023-10-8.rds"))
 ```
 
 ```{r}
@@ -62,7 +62,7 @@ Y generamos el output que ven en el bloque de código:
 
 ```{r}
 #! echo: false
-my_data <- read_rds( here::here('data/topic-modeling-2023-10-02.rds'))
+my_data <- read_rds( here::here('data/topic-modeling-2023-10-8.rds'))
 
 my_data$evaluation %>% FindTopicsNumber_plot()
 ```
