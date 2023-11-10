@@ -1,0 +1,69 @@
+---
+title: "Cortometrajes Animados - Análisis Cuantitativo de lo Estético"
+subtitle: "2023"
+author: "Camila Ramírez"
+output-file: index.html
+format:
+  revealjs: 
+    theme: dark
+---
+
+En el marco de la materia de Ciencias de Datos y Comunicación, se propuso trabajar con el análisis estético de por lo menos dos cortometrajes animados que pertenecerán al corpus de mi Trabajo Final de Egreso.
+
+Desde lo cuantitativo, se buscará ver la presencia del color en los cortos y cómo se ve representado. Para esto, los cortometrajes que se propusieron a analizar son uno en animación tradicional (o animación 2D) y otro en animación stop-motion.
+
+#### **El Empleo**
+
+![](images/image_001900.jpg){fig-align="center"}
+
+Cortometraje argentino producido en el año 2008, por el director Santiago 'Bou' Grasso. Tiene una duración de 06' 20" y retrata, en palabras del director, el "uso" del hombre sobre el hombre, conformada por una mirada crítica y el uso del humor negro.
+
+#### Head Over Heels
+
+![](images/image_000215.jpg){fig-align="center"}
+
+Es un cortometraje británico, producido en el año 2012 y realizado bajo la técnica del stop-motion. Tiene una duración de 11 minutos y, a contrario de la mirada crítica de Santiago Bou Grasso, el director Timothy Reckart retrata la vida marital de una pareja de casados ya anciana. Pareja la cual vive separada dentro de la misma casa, uno en el techo y otro en el suelo.
+
+## El análisis
+
+La intención es ver cómo se ve representado el color en cada película corta y, de ser posible, ver si hay una influencia de la técnica de animación en el tipo de colores que se ven representados. Por el momento, la hipótesis es que si influye la decisión de hacer uso de una animación 2D, 3D, stop-motion u otras técnicas, pero no está la certeza de si influye en el color.
+
+```{r}
+
+Imagenes1 <- imagenes_procesadas_2[1:15527, 1:20]
+
+Imagenes2 <- imagenes_procesadas_2[15528:25137, 1:20]
+```
+
+##### El empleo
+
+```{r}
+#| echo: true
+
+Imagenes2 |> 
+  select(R,G,B) |> 
+  mutate(frame_number = row_number()) |>
+  pivot_longer(cols = c(R,G,B),names_to = "Color") -> analysis_long
+p <- analysis_long |> 
+  ggplot(aes(frame_number,value, color = Color))+
+  scale_color_manual(values = c(B="blue",G="green",R="red"))+
+   theme(legend.position="none")
+p+geom_line()
+```
+
+##### Head Over Heels
+
+```{r}
+
+#| echo: true
+
+Imagenes1 |> 
+  select(R,G,B) |> 
+  mutate(frame_number = row_number()) |>
+  pivot_longer(cols = c(R,G,B),names_to = "Color") -> analysis_long
+p <- analysis_long |> 
+  ggplot(aes(frame_number,value, color = Color))+
+  scale_color_manual(values = c(B="blue",G="green",R="red"))+
+   theme(legend.position="none")
+p+geom_line()
+```
