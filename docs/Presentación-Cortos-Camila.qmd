@@ -8,17 +8,31 @@ format:
 editor: visual
 ---
 
+```{r}
+#| label: setup
+#| include: false
+library(dplyr)
+library(ggdark)
+library(ggthemes)
+library(ggplot2)
+theme_set(dark_theme_minimal())
+source(here::here("R","color-analysis.R"))
+source(here::here("R","color-barplot.R"))
+```
+
+## Introducción
+
 En el marco de la materia de Ciencias de Datos y Comunicación, se propuso trabajar con el análisis estético de por lo menos dos cortometrajes animados que pertenecerán al corpus de mi Trabajo Final de Egreso.
 
 Desde lo cuantitativo, se buscará ver la presencia del color en los cortos y cómo se ve representado. Para esto, los cortometrajes que se propusieron a analizar son uno en animación tradicional (o animación 2D) y otro en animación stop-motion.
 
-#### **El Empleo**
+## **El Empleo**
 
 ![](images/image_001900.jpg){fig-align="center"}
 
 Cortometraje argentino producido en el año 2008, por el director Santiago 'Bou' Grasso. Tiene una duración de 06' 20" y retrata, en palabras del director, el "uso" del hombre sobre el hombre, conformada por una mirada crítica y el uso del humor negro.
 
-#### **Head Over Heels**
+## **Head Over Heels**
 
 ![](images/image_000215.jpg){fig-align="center"}
 
@@ -29,6 +43,7 @@ Es un cortometraje británico, producido en el año 2012 y realizado bajo la té
 La intención es ver cómo se ve representado el color en cada película corta y, de ser posible, ver si hay una influencia de la técnica de animación en el tipo de colores que se ven representados. Por el momento, la hipótesis es que si influye la decisión de hacer uso de una animación 2D, 3D, stop-motion u otras técnicas, pero no está la certeza de si influye en el color.
 
 ```{r}
+imagenes_procesadas_2 <- readRDS("/cloud/project/Camila/imagenes_procesadas_2.rds")
 
 Imagenes1 <- imagenes_procesadas_2[1:15527, 1:20]
 
@@ -38,7 +53,7 @@ Imagenes2 <- imagenes_procesadas_2[15528:25137, 1:20]
 ## El empleo
 
 ```{r}
-#| echo: true
+#| echo: false
 
 Imagenes2 |> 
   select(R,G,B) |> 
