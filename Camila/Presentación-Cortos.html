@@ -1,0 +1,89 @@
+---
+title: "Teaching Data Science in Adverse Circumstances"
+subtitle: "Posit Cloud and Quarto to the Rescue"
+author: "Aleksander Dietrichson, PhD"
+bibliography: references.bib
+suppress-bibliography: true 
+output-file: index.html
+format:
+  revealjs: 
+    theme: dark
+  #  fontsize: 36
+    default-image-extension: svg
+    monofont: "JetBrains Mono"
+    header-includes: |
+      <link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=JetBrains Mono" type="text/css"/>
+---
+
+En el marco de la materia de Ciencias de Datos y Comunicación, se propuso trabajar con el análisis estético de por lo menos dos cortometrajes animados que pertenecerán al corpus de mi Trabajo Final de Egreso.
+
+Desde lo cuantitativo, se buscará ver la presencia del color en los cortos y cómo se ve representado. Para esto, los cortometrajes que se propusieron a analizar son uno en animación tradicional (o animación 2D) y otro en animación stop-motion.
+
+#### **El Empleo**
+
+![](Videos/images/image_001900.jpg){fig-align="center"}
+
+Cortometraje argentino producido en el año 2008, por el director Santiago 'Bou' Grasso. Tiene una duración de 06' 20" y retrata, en palabras del director, el "uso" del hombre sobre el hombre, conformada por una mirada crítica y el uso del humor negro.
+
+#### Head Over Heels
+
+![](Videos/images/image_001595.jpg){fig-align="center"}
+
+Es un cortometraje británico, producido en el año 2012 y realizado bajo la técnica del stop-motion. Tiene una duración de 11 minutos y, a contrario de la mirada crítica de Santiago Bou Grasso, el director Timothy Reckart retrata la vida marital de una pareja de casados ya anciana. Pareja la cual vive separada dentro de la misma casa, uno en el techo y otro en el suelo.
+
+### El análisis
+
+La intención es ver cómo se ve representado el color en cada película corta y, de ser posible, ver si hay una influencia de la técnica de animación en el tipo de colores que se ven representados. Por el momento, la hipótesis es que si influye la decisión de hacer uso de una animación 2D, 3D, stop-motion u otras técnicas, pero no está la certeza de si influye en el color.
+
+```{r}
+
+Imagenes1 <- imagenes_procesadas_2[1:15527, 1:20]
+
+Imagenes2 <- imagenes_procesadas_2[15528:25137, 1:20]
+```
+
+##### El empleo
+
+```{r}
+#| echo: true
+
+Imagenes2 |> 
+  select(R,G,B) |> 
+  mutate(frame_number = row_number()) |>
+  pivot_longer(cols = c(R,G,B),names_to = "Color") -> analysis_long
+p <- analysis_long |> 
+  ggplot(aes(frame_number,value, color = Color))+
+  scale_color_manual(values = c(B="blue",G="green",R="red"))+
+   theme(legend.position="none")
+p+geom_line()
+```
+
+![](Videos/ElEmpleo-Frames/image_004291.jpg){width="128"} ![](Videos/ElEmpleo-Frames/image_004292.jpg){width="128"} ![](Videos/ElEmpleo-Frames/image_004293.jpg){width="128"} ![](Videos/ElEmpleo-Frames/image_004294.jpg){width="128"} ![](Videos/ElEmpleo-Frames/image_004295.jpg){width="128"} ![](Videos/ElEmpleo-Frames/image_004296.jpg){width="128"} ![](Videos/ElEmpleo-Frames/image_004297.jpg){width="128"} ![](Videos/ElEmpleo-Frames/image_004298.jpg){width="128"} ![](Videos/ElEmpleo-Frames/image_004299.jpg){width="128"}
+
+##### Head Over Heels
+
+```{r}
+#| echo: true
+
+Imagenes1 |> 
+  select(R,G,B) |> 
+  mutate(frame_number = row_number()) |>
+  pivot_longer(cols = c(R,G,B),names_to = "Color") -> analysis_long
+p <- analysis_long |> 
+  ggplot(aes(frame_number,value, color = Color))+
+  scale_color_manual(values = c(B="blue",G="green",R="red"))+
+   theme(legend.position="none")
+p+geom_line()
+```
+
+![](Videos/HH-Frames/image_001681.jpg){width="128"} ![](Videos/HH-Frames/image_001682.jpg){width="128"} ![](Videos/HH-Frames/image_001683.jpg){width="128"} ![](Videos/HH-Frames/image_001684.jpg){width="128"} ![](Videos/HH-Frames/image_001685.jpg){width="128"} ![](Videos/HH-Frames/image_001686.jpg){width="128"} ![](Videos/HH-Frames/image_001687.jpg){width="128"} ![](Videos/HH-Frames/image_001688.jpg){width="128"} ![](Videos/HH-Frames/image_001689.jpg){width="128"}
+
+### Conclusiones
+
+En los gráficos, se hizo el análisis de ambos cortos por completo, frame por frame la composición de sus colores. No podemos concluir si es por el tipo de técnica de animación, ya que la muestra no es abarcativa respecto a todo el corpus elegido para el trabajo final, pero si hay un notorio cambio entre el movimiento que representa el color dentro de ambos cortometrajes.
+
+Aun así, en el cortometraje *"El Empleo"* observamos como las transiciones, el movimiento del color es, de algún modo, menos dinámico que en el caso de *"Head Over Heels"*. Si bien no es siempre igual la presencia del color, el que rojos, azules y verdes se mantengan constantes, puede dar cuenta del movimiento de imagenes, un movimiento que se hace constante una vez se está dentro del desarrollo del cortometraje.
+
+En cambio, en el caso de *"Head over Heels*", el cambio de colores es mucho más dinámico, lo que podría indicar la presencia de varios cortes, cambios de escena dentro de la misma película. Aun así, pueden ser tanto los cambios de escena como elementos del mismo cortometraje, ya que, en este caso particular, se sabe que hay escenas donde hay frames de tonos grises. Por eso, en los picos más bajos, se puede observar más presencias de azules y verdes.
+
+No es concluyente de nuestra hipótesis, pero es un primer análisis muy importante para ver el movimiento de lo estético en los cortometrajes. Porque, en un segundo análisis más cuantitativo, se puede asociar el movimiento de colores, sean constantes o más dinámicos, con el tono que tiene el cortometraje. Por ejemplo, para saber si busca dar una sensación de quietud o de problemas (como es en el caso de "Head over Heels", que tiene partes en el mismo cortometraje que los movimientos de los personajes y la música dan esa sensación de estar "acelerado" para representar el problema).

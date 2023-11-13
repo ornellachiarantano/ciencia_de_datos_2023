@@ -1,0 +1,99 @@
+---
+title: "Tarea2 - Google Sheets"
+format: html
+editor: visual
+---
+
+## Tarea2
+
+```{r}
+library(tidyverse)
+if(!require(googlesheets4)){
+  install.packages("googlesheets4")
+  require(googlesheets4)
+}
+
+
+gs4_deauth()
+
+gs <- "https://docs.google.com/spreadsheets/d/11bP7wUWycz7miJgL9p42-ct8hB4jePN6DcvrKJ3WnoM/edit#gid=0"
+
+dataset <- googlesheets4::read_sheet(gs)
+
+
+```
+
+## Análisis
+
+### Título
+
+##### Numero de Palabras
+
+```{r}
+library(tidytext)
+dataset %>%
+  unnest_tokens(palabra, Título)
+```
+
+```{r}
+library(tidytext)
+dataset %>%
+  unnest_tokens(palabra, Texto)
+```
+
+```{r}
+dataset %>%
+  unnest_tokens(palabra, Título) %>%
+  group_by(palabra) %>% 
+  count(sort = TRUE) %>%
+  head(100)
+```
+
+```{r}
+dataset %>%
+  unnest_tokens(palabra, Texto) %>%
+  group_by(palabra) %>% 
+  count(sort = TRUE) %>%
+  head(100)
+```
+
+```{r}
+conteo <- dataset %>%
+  unnest_tokens(palabra, Texto) %>%
+  group_by(palabra) %>% 
+  count(sort = TRUE) 
+
+hist(conteo$n)
+```
+
+```{r}
+conteo2 <- dataset %>%
+  unnest_tokens(palabra, Título) %>%
+  group_by(palabra) %>%
+  count(sort = TRUE)
+
+
+hist(conteo2$n)
+```
+
+```{r}
+dataset %>% 
+  unnest_tokens(palabra, Texto) %>%
+  group_by(Título) %>%
+  summarize(
+    N = n()
+  )
+```
+
+```{r}
+dataset %>%
+  unnest_tokens(palabra, Texto) %>%
+  mutate(largo_de_palabra = str_length(palabra)) %>%
+  group_by(Título) %>%
+  summarise(
+    N = n(),
+    promedio = mean(largo_de_palabra)
+  )
+```
+
+##### Contabilicé las palabras por título, ya que estaba tomando la información de un solo diario

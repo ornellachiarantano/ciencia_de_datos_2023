@@ -1,0 +1,173 @@
+---
+title: "Tarea3"
+format: html
+editor: visual
+---
+
+## Tarea3
+
+### Análisis con ggplot
+
+```{r}
+gs4_deauth()
+
+gs <- "https://docs.google.com/spreadsheets/d/11bP7wUWycz7miJgL9p42-ct8hB4jePN6DcvrKJ3WnoM/edit#gid=0"
+
+datosambito <- googlesheets4::read_sheet(gs)
+
+```
+
+```{r}
+datosambito2 <- 
+  datosambito %>% 
+  rename(titulo = Título,
+         fecha = Fecha,
+         medio = Medio,
+         texto = Texto
+         )
+
+##check
+names(datosambito2)
+```
+
+```{r}
+datosambito2 %>% 
+  unnest_tokens(palabra, texto) %>% 
+   mutate(largo_de_palabra = str_length(palabra)) %>% 
+  group_by(medio) %>% 
+  summarise(
+    N=n(),
+    promedio = mean(largo_de_palabra)
+  )
+```
+
+```{r}
+datosambito2 %>% 
+  unnest_tokens(palabra,texto) %>% 
+  group_by(medio, titulo) %>% 
+  summarize(
+    N=n()
+  ) %>% 
+  group_by(medio) %>% 
+  summarize(
+    promedio_palabras = mean(N),
+    desviacion_estandard = sd(N)
+  )
+```
+
+```{r}
+miconteo <- datosambito2 %>% 
+  unnest_tokens(palabra,texto) %>% 
+  group_by(medio, titulo) %>% 
+  summarize(
+    N=n()
+  )
+hist(miconteo$N)
+```
+
+### Análisis stopwords
+
+```{r}
+miconteo %>%
+  ggplot( aes(x=N, fill=medio))+
+  geom_histogram(position= "dodge")
+```
+
+```{r}
+library(stopwords)
+my_stopwords <- stopwords(language = "es")
+head(my_stopwords)
+```
+
+```{r}
+datosambito2 %>%
+  unnest_tokens(palabra, texto) %>%
+  group_by(palabra) %>%
+  count(sort = TRUE) %>%
+  head(20)
+```
+
+```{r}
+datosambito2 %>% 
+  unnest_tokens(palabra,texto) %>%
+  anti_join( data.frame(palabra = my_stopwords) ) %>% 
+  group_by(palabra) %>% 
+  count(sort = TRUE) %>% 
+  head(40)
+```
+
+### Probando con más medios
+
+```{r}
+gs4_deauth()
+
+gs <- "https://docs.google.com/spreadsheets/d/11bP7wUWycz7miJgL9p42-ct8hB4jePN6DcvrKJ3WnoM/edit#gid=1383341564"
+
+datosdiarios <- googlesheets4::read_sheet(gs, sheet = 2)
+```
+
+```{r}
+datosdiarios %>%
+  unnest_tokens(palabra, texto) %>%
+  mutate(largo_de_palabra = str_length(palabra)) %>%
+  group_by(medio)%>%
+  summarize(
+    N=n(),
+    promedio = mean(largo_de_palabra)
+  )
+```
+
+```{r}
+datosdiarios %>%
+  unnest_tokens(palabra, texto)%>%
+  group_by(medio, titulo)%>%
+  summarize(
+    N=n()
+  ) %>%
+  group_by(medio) %>%
+  summarize(
+    promedio_palabras = mean(N),
+    desviacion_estandard = sd(N)
+  )
+```
+
+```{r}
+miconteo2 <- datosdiarios %>%
+  unnest_tokens(palabra, texto)%>%
+  group_by(medio, titulo)%>%
+  summarize(
+    N=n()
+  )
+hist(miconteo2$N)
+```
+
+```{r}
+miconteo2 %>%
+  ggplot( aes(x=N, fill=medio))+
+  geom_histogram(position = "dodge")
+```
+
+### Stopwords
+
+```{r}
+library(stopwords)
+my_stopwords2 <- stopwords(language = "es")
+head(my_stopwords2)
+```
+
+```{r}
+datosdiarios %>%
+  unnest_tokens(palabra, texto)%>%
+  group_by(palabra)%>%
+  count(sort = TRUE)%>%
+  head(30)
+```
+
+```{r}
+datosdiarios %>% 
+  unnest_tokens(palabra,texto) %>%
+  anti_join( data.frame(palabra = my_stopwords) ) %>% 
+  group_by(palabra) %>% 
+  count(sort = TRUE) %>% 
+  head(60)
+```
