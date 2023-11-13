@@ -71,7 +71,7 @@ p+geom_line()
 ## Head Over Heels
 
 ```{r}
-#| echo: true
+#| echo: false
 
 Imagenes1 |> 
   select(R,G,B) |> 
@@ -88,10 +88,16 @@ p+geom_line()
 
 ## Conclusiones
 
-En los gráficos, se hizo el análisis de ambos cortos por completo, frame por frame la composición de sus colores. No podemos concluir si es por el tipo de técnica de animación, ya que la muestra no es abarcativa respecto a todo el corpus elegido para el trabajo final, pero si hay un notorio cambio entre el movimiento que representa el color dentro de ambos cortometrajes.
+No podemos concluir si es por el tipo de técnica de animación que hay una diferencia tan notoria en los gráficos de ambos cortometrajes, ya que la muestra no es abarcativa respecto a todo el corpus elegido para el trabajo final, pero si hay un notorio cambio entre el movimiento que representa el color.
 
-Aun así, en el cortometraje *"El Empleo"* observamos como las transiciones, el movimiento del color es, de algún modo, menos dinámico que en el caso de *"Head Over Heels"*. Si bien no es siempre igual la presencia del color, el que rojos, azules y verdes se mantengan constantes, puede dar cuenta del movimiento de imagenes, un movimiento que se hace constante una vez se está dentro del desarrollo del cortometraje.
+## Conclusiones
 
-En cambio, en el caso de *"Head over Heels*", el cambio de colores es mucho más dinámico, lo que podría indicar la presencia de varios cortes, cambios de escena dentro de la misma película. Aun así, pueden ser tanto los cambios de escena como elementos del mismo cortometraje, ya que, en este caso particular, se sabe que hay escenas donde hay frames de tonos grises. Por eso, en los picos más bajos, se puede observar más presencias de azules y verdes.
+En el cortometraje *"El Empleo"* observamos como el movimiento del color es, de algún modo, menos dinámico que en el caso de *"Head Over Heels"*. Si bien no es siempre igual la presencia del color, el que rojos, azules y verdes se mantengan constantes, en un punto más alto del gráfico, marca una notoria diferencia con el movimiento dinámico de los colores del otro corto.
 
-No es concluyente de nuestra hipótesis, pero es un primer análisis muy importante para ver el movimiento de lo estético en los cortometrajes. Porque, en un segundo análisis más cuantitativo, se puede asociar el movimiento de colores, sean constantes o más dinámicos, con el tono que tiene el cortometraje. Por ejemplo, para saber si busca dar una sensación de quietud o de problemas (como es en el caso de "Head over Heels", que tiene partes en el mismo cortometraje que los movimientos de los personajes y la música dan esa sensación de estar "acelerado" para representar el problema).
+![](Videos/ElEmpleo-Frames/image_004299.jpg){fig-align="center"}
+
+## Conclusiones
+
+En cambio, en *"Head over Heels"*, podemos observar por un lado: cómo en la parte alta del gráfico se mantiene predominante el color rojo y en la parte baja del gráfico los verdes y azules. Y, además, cómo cambia constantemente a lo largo del gráfico la presencia de colores, pudiendo llegar a indicar un cambio de frames mucho más dinámico que el corto anteriormente mencionado.
+
+![](Videos/HH-Frames/image_001689.jpg){fig-align="center"}
