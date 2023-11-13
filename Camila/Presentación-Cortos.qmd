@@ -18,13 +18,13 @@ Desde lo cuantitativo, se buscará ver la presencia del color en los cortos y c�
 
 Cortometraje argentino producido en el año 2008, por el director Santiago 'Bou' Grasso. Tiene una duración de 06' 20" y retrata, en palabras del director, el "uso" del hombre sobre el hombre, conformada por una mirada crítica y el uso del humor negro.
 
-#### Head Over Heels
+#### **Head Over Heels**
 
-![](Videos/images/image_001595.jpg){fig-align="center"}
+![](Videos/images/image_000215.jpg){fig-align="center"}
 
 Es un cortometraje británico, producido en el año 2012 y realizado bajo la técnica del stop-motion. Tiene una duración de 11 minutos y, a contrario de la mirada crítica de Santiago Bou Grasso, el director Timothy Reckart retrata la vida marital de una pareja de casados ya anciana. Pareja la cual vive separada dentro de la misma casa, uno en el techo y otro en el suelo.
 
-### El análisis
+## El análisis
 
 La intención es ver cómo se ve representado el color en cada película corta y, de ser posible, ver si hay una influencia de la técnica de animación en el tipo de colores que se ven representados. Por el momento, la hipótesis es que si influye la decisión de hacer uso de una animación 2D, 3D, stop-motion u otras técnicas, pero no está la certeza de si influye en el color.
 
@@ -35,7 +35,7 @@ Imagenes1 <- imagenes_procesadas_2[1:15527, 1:20]
 Imagenes2 <- imagenes_procesadas_2[15528:25137, 1:20]
 ```
 
-##### El empleo
+## El empleo
 
 ```{r}
 #| echo: true
@@ -53,7 +53,7 @@ p+geom_line()
 
 ![](Videos/ElEmpleo-Frames/image_004291.jpg){width="128"} ![](Videos/ElEmpleo-Frames/image_004292.jpg){width="128"} ![](Videos/ElEmpleo-Frames/image_004293.jpg){width="128"} ![](Videos/ElEmpleo-Frames/image_004294.jpg){width="128"} ![](Videos/ElEmpleo-Frames/image_004295.jpg){width="128"} ![](Videos/ElEmpleo-Frames/image_004296.jpg){width="128"} ![](Videos/ElEmpleo-Frames/image_004297.jpg){width="128"} ![](Videos/ElEmpleo-Frames/image_004298.jpg){width="128"} ![](Videos/ElEmpleo-Frames/image_004299.jpg){width="128"}
 
-##### Head Over Heels
+## Head Over Heels
 
 ```{r}
 #| echo: true
@@ -71,7 +71,7 @@ p+geom_line()
 
 ![](Videos/HH-Frames/image_001681.jpg){width="128"} ![](Videos/HH-Frames/image_001682.jpg){width="128"} ![](Videos/HH-Frames/image_001683.jpg){width="128"} ![](Videos/HH-Frames/image_001684.jpg){width="128"} ![](Videos/HH-Frames/image_001685.jpg){width="128"} ![](Videos/HH-Frames/image_001686.jpg){width="128"} ![](Videos/HH-Frames/image_001687.jpg){width="128"} ![](Videos/HH-Frames/image_001688.jpg){width="128"} ![](Videos/HH-Frames/image_001689.jpg){width="128"}
 
-### Conclusiones
+## Conclusiones
 
 En los gráficos, se hizo el análisis de ambos cortos por completo, frame por frame la composición de sus colores. No podemos concluir si es por el tipo de técnica de animación, ya que la muestra no es abarcativa respecto a todo el corpus elegido para el trabajo final, pero si hay un notorio cambio entre el movimiento que representa el color dentro de ambos cortometrajes.
 
