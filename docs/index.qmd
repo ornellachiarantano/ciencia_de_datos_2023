@@ -1,10 +1,10 @@
 ---
-title: "index"
+title: "Indice"
 format: html
 editor: visual
 ---
 
-## Index del sitio
+## 
 
 [Presentación de Prueba](presentacion-sasha.html)
 
