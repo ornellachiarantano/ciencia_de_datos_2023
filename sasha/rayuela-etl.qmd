@@ -28,7 +28,7 @@ my_pdf <- pdftools::pdf_text(my_pdf_filename)
 head(my_pdf, n=10)
 ```
 
-parece que tenemos un vector de characteres por página aunque el número de página está en desface -1, seguramente porque la página inicial del título no lleva número.
+parece que tenemos un vector de caracteres por página aunque el número de página está en desface -1, seguramente porque la página inicial del título no lleva número.
 
 Armemos data-frame
 
