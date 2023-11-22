@@ -1,0 +1,92 @@
+---
+title: "ANÁLISIS DE SENTIMIENTO RAYUELA TP_FINAL"
+author: "Ornella Chiaratano"
+format: html
+editor: visual
+---
+
+Proyecto final: Análisis de sentimiento por capítulo del libro Rayuela de Julio Cortázar.
+
+```{r}
+library(syuzhet)
+library(pdftools)
+library(tidyverse)
+
+```
+
+```{r}
+my_pdf_filename <- here::here("data/julio-cortazar-rayuela.pdf")
+my_pdf <- pdftools::pdf_text(my_pdf_filename)
+head(my_pdf, n=10)
+
+```
+
+Data frame
+
+```{r}
+my_data <- data.frame(text = my_pdf) %>% 
+  # Agregamos número de página ya que tiene cierta relevancia para el análisis
+  mutate(page = 1:length(my_pdf))
+```
+
+```{r}
+my_data <- my_data %>% 
+  mutate(text = stringr::str_split(text,"\n")) %>% 
+  unnest(text)
+```
+
+```{r}
+my_data %>% 
+  head(n=100)
+```
+
+Sacar los capítulos
+
+```{r}
+my_data <- data.frame(text = my_pdf)
+
+my_data$capitulo <- map_int(my_data$text,~{
+  str_extract(.x,"\\d+\\n") %>% 
+    as.numeric()
+})
+
+max(my_data$capitulo, na.rm = TRUE)
+
+```
+
+```{r}
+which(my_data$capitulo==389)
+```
+
+```{r}
+my_data$capitulo <- map_int(my_data$text,~{
+  str_extract(str_trim(.x),"^\\d+\\n") %>% 
+    as.numeric()
+})
+```
+
+```{r}
+my_data$capitulo %>% 
+  max(na.rm = TRUE)
+```
+
+```{r}
+my_data$capitulo
+```
+
+```{r}
+library(dplyr)
+library(stringr)
+
+my_data <-my_data %>%
+  mutate (linenumber = row_number () ) %>% 
+  unnest_tokens(word, text)
+```
+
+```{r}
+names(my_data)
+```
+
+```{r}
+my_data$sentiments <-get_sentiment(my_data$word,language = "spanish",method = "nrc")
+```
